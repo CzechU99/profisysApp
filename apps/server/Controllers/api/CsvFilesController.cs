@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using profisysApp.Data;
 using profisysApp.Services;
+using profisysApp.Config;
 
 namespace profisysApp.Controllers
 {
@@ -9,27 +8,29 @@ namespace profisysApp.Controllers
     [Route("api/[controller]")]
     public class CsvFilesController : ControllerBase
     {
-        private readonly DatabaseContext _context;
         private readonly CsvImportService _importService;
+        private readonly AppSettings _appSettings;
 
-        public CsvFilesController(DatabaseContext context, CsvImportService importService)
+        public CsvFilesController(
+            CsvImportService importService,
+            AppSettings appSettings
+        )
         {
-            _context = context;
             _importService = importService;
+            _appSettings = appSettings;
         }
 
-        [HttpGet("")]
-        public async Task<IActionResult> GetAll()
-        {
-            var query = _context.Documents.Include(d => d.DocumentItem).AsQueryable();
-            return Ok(await query.ToListAsync());
-        }
-
-        [HttpPost("import")]
+        [HttpPost("ImportCsv")]
         public IActionResult ImportCsv()
         {
-            _importService.Import("Docs/Documents.csv", "Docs/DocumentItems.csv");
-            return Ok(new { message = "Dane zostały zaimportowane" });
+            try
+            {
+                _importService.Import(_appSettings.PATH_TO_DOCUMENTS_CSV, _appSettings.PATH_TO_DOCUMENT_ITEMS_CSV);
+                return Ok(new { message = "Dane zostały zaimportowane" });
+            } catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Wystąpił błąd podczas importu danych", error = ex.Message });
+            }
         }
     }
 }
