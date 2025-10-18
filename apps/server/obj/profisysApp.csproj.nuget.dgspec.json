@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Desktop\\profisysApp\\profisysApp.csproj": {}
+    "D:\\Desktop\\profisysApp\\apps\\server\\profisysApp.csproj": {}
   },
   "projects": {
-    "D:\\Desktop\\profisysApp\\profisysApp.csproj": {
+    "D:\\Desktop\\profisysApp\\apps\\server\\profisysApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Desktop\\profisysApp\\profisysApp.csproj",
+        "projectUniqueName": "D:\\Desktop\\profisysApp\\apps\\server\\profisysApp.csproj",
         "projectName": "profisysApp",
-        "projectPath": "D:\\Desktop\\profisysApp\\profisysApp.csproj",
+        "projectPath": "D:\\Desktop\\profisysApp\\apps\\server\\profisysApp.csproj",
         "packagesPath": "C:\\Users\\komputer\\.nuget\\packages\\",
-        "outputPath": "D:\\Desktop\\profisysApp\\obj\\",
+        "outputPath": "D:\\Desktop\\profisysApp\\apps\\server\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -50,6 +50,24 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "CsvHelper": {
+              "target": "Package",
+              "version": "[33.1.0, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[9.0.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[9.0.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[9.0.10, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.6.2, )"

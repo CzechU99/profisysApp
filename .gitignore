@@ -1,0 +1,35 @@
+# ---------------------------
+# Backend - .NET / C#
+# ---------------------------
+bin/
+obj/
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.sln.docstates
+*.db
+.vs/
+*.pdb
+*.log
+
+# EF Core migrations (opcjonalnie, jeśli chcesz je śledzić)
+# /Migrations/
+
+# ---------------------------
+# Frontend - Vue / Node
+# ---------------------------
+node_modules/
+dist/
+.env.local
+.env.*.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ---------------------------
+# Ogólne
+# ---------------------------
+.vscode/
+.DS_Store
+*.swp
