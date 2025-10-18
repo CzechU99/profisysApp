@@ -1,6 +1,7 @@
 using profisysApp.Data;
 using Microsoft.EntityFrameworkCore;
 using profisysApp.Services;
+using profisysApp.Config;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,9 @@ builder.Services.AddDbContext<DatabaseContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<CsvImportService>();
+builder.Services.AddScoped<AppSettings>();
+
+
 
 builder.Services.AddCors(options =>
 {

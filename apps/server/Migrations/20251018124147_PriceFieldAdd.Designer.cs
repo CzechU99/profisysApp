@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using profisysApp.Data;
 
@@ -10,9 +11,11 @@ using profisysApp.Data;
 namespace profisysApp.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20251018124147_PriceFieldAdd")]
+    partial class PriceFieldAdd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.10");
@@ -39,8 +42,8 @@ namespace profisysApp.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("TaxRate")
-                        .HasColumnType("INTEGER");
+                    b.Property<double>("TaxRate")
+                        .HasColumnType("REAL");
 
                     b.HasKey("Id");
 

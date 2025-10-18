@@ -43,7 +43,7 @@ namespace profisysApp.Services
     private List<T> ReadCsv<T>(string path)
     {
         using var reader = new StreamReader(path);
-        using var csv = new CsvReader(reader, new CsvHelper.Configuration.CsvConfiguration(CultureInfo.InvariantCulture)
+        using var csv = new CsvReader(reader, new CsvHelper.Configuration.CsvConfiguration(CultureInfo.GetCultureInfo("pl-PL"))
         {
           Delimiter = ";",
           HeaderValidated = null,

@@ -15,9 +15,11 @@ namespace profisysApp.Entities
         [Required]
         public string Product { get; set; } = null!;
 
-        public double Quantity { get; set; }
+        public int Quantity { get; set; }
         
-        public double TaxRate { get; set; }
+        public double Price { get; set; }
+
+        public int TaxRate { get; set; }
 
         [ForeignKey("DocumentId")]
         public Documents Document { get; set; } = null!;

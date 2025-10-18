@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="tableContainer">
     <DocumentsTable />
   </div>
 </template>
@@ -11,3 +11,13 @@ export default {
   components: { DocumentsTable }
 };
 </script>
+
+<style scoped> 
+
+.tableContainer {
+  width: 80%;
+  margin: auto;
+  margin-top: 50px;
+}
+
+</style>
