@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using profisysApp.Services;
 using profisysApp.Config;
+using Microsoft.EntityFrameworkCore;
 
 namespace profisysApp.Controllers
 {
@@ -27,9 +28,17 @@ namespace profisysApp.Controllers
             {
                 _importService.Import(_appSettings.PATH_TO_DOCUMENTS_CSV, _appSettings.PATH_TO_DOCUMENT_ITEMS_CSV);
                 return Ok(new { message = "Dane zostały zaimportowane" });
-            } catch (Exception ex)
+            } catch (CsvHelper.HeaderValidationException exception)
             {
-                return StatusCode(500, new { message = "Wystąpił błąd podczas importu danych", error = ex.Message });
+                return BadRequest($"Błąd CSV: {exception.Message}");
+            }
+            catch (DbUpdateException exception)
+            {
+                return StatusCode(500, new { message = "Błąd bazy danych: ", error = exception.Message });
+            }
+            catch (Exception exception)
+            {
+                return StatusCode(500, new { message = "Nieoczekiwany błąd: ", error = exception.Message });
             }
         }
     }

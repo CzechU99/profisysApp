@@ -18,8 +18,22 @@ namespace profisysApp.Controllers
         [HttpGet("GetAllDocuments")]
         public async Task<IActionResult> GetAllDocuments()
         {
-            var query = _context.Documents.Include(d => d.DocumentItem).AsQueryable();
-            return Ok(await query.ToListAsync());
+            try
+            {
+                var query = _context.Documents.Include(d => d.DocumentItem).AsQueryable();
+                return Ok(await query.ToListAsync());
+            } catch (Microsoft.Data.Sqlite.SqliteException exception)
+            {
+                return StatusCode(500, $"Błąd bazy danych: {exception.Message}");
+            }
+            catch (InvalidOperationException exception)
+            {
+                return StatusCode(500, $"Błąd odczyty z bazy danych: {exception.Message}");
+            }
+            catch (Exception exception)
+            {
+                return StatusCode(500, $"Nieoczekiwny błąd: {exception.Message}");
+            }
         }
 
     }
