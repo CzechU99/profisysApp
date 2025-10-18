@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { getAllDocuments, clearAllDocuments, fetchAllDocuments } from '../api/documentsService'
+import { getAllDocuments, clearAllDocuments, fetchAllDocuments, deleteDocument } from '../api/documentsService'
 
 export const useDocumentsStore = defineStore('documents', () => {
   const documents = ref([])
@@ -44,12 +44,23 @@ export const useDocumentsStore = defineStore('documents', () => {
     }
   }
 
+  async function deleteDocumentById(id) {
+    try {
+      await deleteDocument(id)
+      documents.value = documents.value.filter(doc => doc.id !== id)
+    } catch (err) {
+      console.error('Błąd usuwania dokumentów:', err)
+      error.value = err
+    }
+  }
+
   return {
     documents,
     loading,
     error,
     loadAllDocuments,
     deleteAllDocuments,
-    loadDocsToDatabase
+    loadDocsToDatabase,
+    deleteDocumentById
   }
 })

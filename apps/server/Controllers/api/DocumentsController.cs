@@ -48,7 +48,7 @@ namespace profisysApp.Controllers
             {
                 var documents = await _context.Documents.Include(d => d.DocumentItem).AsQueryable().ToListAsync();
 
-                if(documents.Count == 0)
+                if (documents.Count == 0)
                 {
                     return NotFound("Nie znaleziono dokumentów do usunięcia.");
                 }
@@ -57,6 +57,29 @@ namespace profisysApp.Controllers
                 await _context.SaveChangesAsync();
 
                 return Ok("Dokumenty zostały pomyślnie usunięte.");
+            }
+            catch (Exception exception)
+            {
+                return StatusCode(500, $"Nieoczekiwny błąd: {exception.Message}");
+            }
+        }
+        
+        [HttpDelete("DeleteDocument/{id}")]
+        public async Task<IActionResult> DeleteDocument(int id)
+        {
+            try
+            {
+                var document = await _context.Documents.Include(d => d.DocumentItem).FirstOrDefaultAsync(d => d.Id == id);
+
+                if (document == null)
+                {
+                    return NotFound("Nie znaleziono dokumentu do usunięcia.");
+                }
+
+                _context.Documents.Remove(document);
+                await _context.SaveChangesAsync();
+
+                return Ok("Dokument został pomyślnie usunięty.");
             }
             catch (Exception exception)
             {

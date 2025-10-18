@@ -31,3 +31,13 @@ export const clearAllDocuments = async () => {
     throw error;
   } 
 };
+
+export const deleteDocument = async (id) => {
+  try {
+    const response = await axios.delete(`${API_URL}/Documents/DeleteDocument/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error('Błąd usuwania dokumentu:', error);
+    throw error;
+  } 
+};

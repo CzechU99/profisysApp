@@ -1,59 +1,66 @@
 <template>
-  <DataTable 
-    v-model:filters="filters"
-    v-model:expandedRows="expandedRows"
-    :value="store.documents" 
-    dataKey="id" 
-    :paginator="true" 
-    :rows="10" 
-    removableSort 
-    :rowsPerPageOptions="[5, 10, 25, 100]"
-    :globalFilterFields="['id', 'type', 'date', 'firstName', 'lastName', 'city']"
-    filterDisplay="row"
-    class="tableDocuments"
-  >
-    <template #header>
-      <div class="table-header">
-        <div class="header-title">
-          <i class="pi pi-file-edit"></i>
-          <span>Dokumenty</span>
+  <div>
+    <ContextMenu ref="cm" :model="menuModel" />
+    
+    <DataTable 
+      v-model:filters="filters"
+      v-model:expandedRows="expandedRows"
+      v-model:contextMenuSelection="selectedRow"
+      :value="store.documents" 
+      dataKey="id" 
+      :paginator="true" 
+      :rows="10" 
+      removableSort 
+      :rowsPerPageOptions="[5, 10, 25, 100]"
+      :globalFilterFields="['id', 'type', 'date', 'firstName', 'lastName', 'city']"
+      filterDisplay="row"
+      class="tableDocuments"
+      contextMenu
+      @row-contextmenu="onRowContextMenu"
+    >
+      <template #header>
+        <div class="table-header">
+          <div class="header-title">
+            <i class="pi pi-file-edit"></i>
+            <span>Dokumenty</span>
+          </div>
+          <IconField class="search-field">
+            <InputIcon class="pi pi-search" />
+            <InputText v-model="filters.global.value" placeholder="Szukaj dokumentów..." />
+          </IconField>
         </div>
-        <IconField class="search-field">
-          <InputIcon class="pi pi-search" />
-          <InputText v-model="filters.global.value" placeholder="Szukaj dokumentów..." />
-        </IconField>
-      </div>
-    </template>
+      </template>
 
-    <Column expander />
-    <Column field="id" sortable header="ID" />
-    <Column field="type" sortable header="TYP" />
-    <Column field="date" sortable header="DATA" />
-    <Column field="firstName" sortable header="IMIĘ" />
-    <Column field="lastName" sortable header="NAZWISKO" />
-    <Column field="city" sortable header="MIASTO" />
+      <Column expander />
+      <Column field="id" sortable header="ID" />
+      <Column field="type" sortable header="TYP" />
+      <Column field="date" sortable header="DATA" />
+      <Column field="firstName" sortable header="IMIĘ" />
+      <Column field="lastName" sortable header="NAZWISKO" />
+      <Column field="city" sortable header="MIASTO" />
 
-    <template #expansion="slotProps">
-      <div class="expansion-wrapper">
-        <DataTable 
-          :value="slotProps.data.documentItem" 
-          dataKey="id" 
-          removableSort 
-          class="subTable"
-        >
-          <Column field="product" sortable header="PRODUKT" />
-          <Column field="quantity" sortable header="ILOŚĆ" />
-          <Column field="taxRate" sortable header="PODATEK" />
-          <Column field="price" sortable header="CENA" />
-        </DataTable>
-      </div>
-    </template>
+      <template #expansion="slotProps">
+        <div class="expansion-wrapper">
+          <DataTable 
+            :value="slotProps.data.documentItem" 
+            dataKey="id" 
+            removableSort 
+            class="subTable"
+          >
+            <Column field="product" sortable header="PRODUKT" />
+            <Column field="quantity" sortable header="ILOŚĆ" />
+            <Column field="taxRate" sortable header="PODATEK" />
+            <Column field="price" sortable header="CENA" />
+          </DataTable>
+        </div>
+      </template>
 
-  </DataTable>
+    </DataTable>
+  </div>
 </template>
 
 <script>
-import { ref, onMounted } from 'vue'
+import { ref, computed } from 'vue'
 import { FilterMatchMode } from '@primevue/core/api'
 import { useDocumentsStore } from '../stores/documents'
 
@@ -61,12 +68,34 @@ export default {
   setup() {
     const store = useDocumentsStore()
     const expandedRows = ref([])
+    const selectedRow = ref(null)
+    const cm = ref()
     
     const filters = ref({
       global: { value: null, matchMode: FilterMatchMode.CONTAINS }
     })
 
-    return { store, filters, expandedRows }
+    const menuModel = computed(() => [
+      {
+        label: 'Usuń',
+        icon: 'pi pi-trash',
+        command: () => store.deleteDocumentById(selectedRow.value.id)
+      }
+    ])
+
+    const onRowContextMenu = (event) => {
+      cm.value.show(event.originalEvent)
+    }
+
+    return { 
+      store,
+      filters,
+      expandedRows,
+      selectedRow,
+      cm,
+      menuModel,
+      onRowContextMenu
+    }
   }
 }
 </script>
@@ -146,4 +175,51 @@ export default {
   color: #22d3ee;
 }
 
+/* Context menu highlight */
+:deep(.p-datatable-tbody > tr.p-contextmenu-selected) {
+  background: rgba(34, 211, 238, 0.2) !important;
+}
+
+/* Expansion wrapper */
+.expansion-wrapper {
+  background: linear-gradient(135deg, #0f172a 0%, #020617 100%);
+  padding: 1.5rem;
+  margin: 0.5rem 0;
+  border-left: 4px solid #22d3ee;
+  border-radius: 8px;
+}
+
+.subTable {
+  margin-left: 2rem;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.subTable :deep(thead) {
+  background: linear-gradient(135deg, #334155 0%, #1e293b 100%);
+}
+
+.subTable :deep(th) {
+  background: linear-gradient(135deg, #334155 0%, #1e293b 100%);
+  color: #67e8f9;
+  font-weight: 600;
+  padding: 0.875rem;
+  border-bottom: 2px solid #475569;
+  font-size: 0.8125rem;
+}
+
+.subTable :deep(tbody tr) {
+  background: #1e293b;
+  border-bottom: 1px solid #334155;
+}
+
+.subTable :deep(tbody tr:hover) {
+  background: #334155;
+}
+
+.subTable :deep(tbody td) {
+  color: #cbd5e1;
+  padding: 0.875rem;
+}
 </style>

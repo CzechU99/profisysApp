@@ -12,6 +12,7 @@ import InputIcon from "primevue/inputicon";
 import InputText from "primevue/inputtext";
 import Button from "primevue/button";
 import Toolbar from 'primevue/toolbar';
+import ContextMenu from 'primevue/contextmenu';
 
 
 import '@fontsource/inter'
@@ -39,5 +40,6 @@ app.component('IconField', IconField)
 app.component('InputIcon', InputIcon)
 app.component('Toolbar', Toolbar)
 app.component('Button', Button)
+app.component('ContextMenu', ContextMenu)
 
 app.mount('#app')
