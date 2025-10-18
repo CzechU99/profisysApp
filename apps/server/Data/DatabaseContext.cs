@@ -11,6 +11,14 @@ namespace profisysApp.Data
 
         public DbSet<Documents> Documents { get; set; }
         public DbSet<DocumentItems> DocumentItems { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Documents>()
+                .HasMany(d => d.DocumentItem)
+                .WithOne(i => i.Document)
+                .HasForeignKey(i => i.DocumentId);
+        }
     
     }
 

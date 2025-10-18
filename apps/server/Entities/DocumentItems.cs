@@ -8,19 +8,18 @@ namespace profisysApp.Entities
         [Key]
         public int Id { get; set; }
         
-        [ForeignKey("Documents")]
         public int DocumentId { get; set; }
 
-        [Required]
         public int Ordinal { get; set; }
 
         [Required]
         public string Product { get; set; } = null!;
 
-        [Required]
         public double Quantity { get; set; }
         
-        [Required]
         public double TaxRate { get; set; }
+
+        [ForeignKey("DocumentId")]
+        public Documents Document { get; set; } = null!;
     }
 }

@@ -20,8 +20,23 @@ namespace profisysApp.Services
         var documents = ReadCsv<Documents>(documentsPath);
         var items = ReadCsv<DocumentItems>(itemsPath);
 
+        var itemsGrouped = items.GroupBy(i => i.DocumentId).ToDictionary(g => g.Key, g => g.ToList());
+
+        foreach (var doc in documents)
+        {
+            if (itemsGrouped.TryGetValue(doc.Id, out var docItems))
+            {
+                doc.DocumentItem = docItems;
+
+                foreach (var item in docItems)
+                {
+                    item.DocumentId = doc.Id;
+                    item.Document = doc;
+                }
+            }
+        }
+
         _context.Documents.AddRange(documents);
-        _context.DocumentItems.AddRange(items);
         _context.SaveChanges();
     }
 

@@ -18,8 +18,11 @@ namespace profisysApp.Entities
 
         [Required]
         public string LastName { get; set; } = null!;
-        
+
         [Required]
         public string City { get; set; } = null!;
+        
+        [Required]
+        public ICollection<DocumentItems> DocumentItem { get; set; } = new List<DocumentItems>();
     }
 }
