@@ -1,6 +1,8 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import './style.css'
+import './assets/style/table.css'
+import './assets/style/toolbar.css'
 import App from './App.vue'
 
 import PrimeVue from 'primevue/config'

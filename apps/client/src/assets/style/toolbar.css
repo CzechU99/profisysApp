@@ -1,0 +1,80 @@
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #22d3ee 0%, #06b6d4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-right: 2rem;
+  padding-right: 2rem;
+  border-right: 2px solid #334155;
+}
+
+.logo i {
+  font-size: 1.8rem;
+  background: linear-gradient(135deg, #22d3ee 0%, #06b6d4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.btn-load {
+  background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+  border: none;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+.btn-load:hover {
+  background: linear-gradient(135deg, #22d3ee 0%, #06b6d4 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(6, 182, 212, 0.5);
+}
+
+.btn-load:active {
+  transform: translateY(0);
+}
+
+.btn-clear {
+  border: 2px solid #ef4444;
+  color: #ef4444;
+  background: transparent;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  border-radius: 8px;
+  box-sizing: border-box;
+  margin-left: 30px;
+  transition: all 0.3s ease;
+}
+
+.btn-clear:hover {
+  background: #ef4444;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
+}
+
+.btn-clear:active {
+  transform: translateY(0);
+}
+
+/* Icon animations */
+.p-button-icon {
+  transition: transform 0.3s ease;
+}
+
+.btn-load:hover .p-button-icon {
+  transform: rotate(180deg);
+}
+
+.btn-clear:hover .p-button-icon {
+  transform: scale(1.2);
+}

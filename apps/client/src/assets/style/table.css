@@ -1,0 +1,35 @@
+.tableDocuments {
+  width: 90%;
+  margin: 2rem auto;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px !important;
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  border-bottom: 2px solid #22d3ee;
+}
+
+.header-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-left: 20px;
+  color: #22d3ee;
+}
+
+.header-title i {
+  font-size: 1.8rem;
+  color: #22d3ee;
+}
+
+.search-field {
+  min-width: 300px;
+}

@@ -101,44 +101,9 @@ export default {
 </script>
 
 <style scoped>
-.tableDocuments {
-  width: 90%;
-  margin: 2rem auto;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-}
-
-.table-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px !important;
-  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-  border-bottom: 2px solid #22d3ee;
-}
 
 :deep(.p-datatable-header){
   padding: 0px !important;
-}
-
-.header-title {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-left: 20px;
-  color: #22d3ee;
-}
-
-.header-title i {
-  font-size: 1.8rem;
-  color: #22d3ee;
-}
-
-.search-field {
-  min-width: 300px;
 }
 
 .search-field :deep(input) {
@@ -148,13 +113,6 @@ export default {
   padding: 0.75rem 1rem 0.75rem 2.5rem;
   border-radius: 8px;
   transition: all 0.3s ease;
-}
-
-:deep(.p-paginator-page-selected){
-  background: #1e293b !important;
-  color: #22d3ee !important;
-  font-weight: bold;
-  font-size: 20px;
 }
 
 .search-field :deep(input::placeholder) {
@@ -167,59 +125,15 @@ export default {
   box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.2);
 }
 
+:deep(.p-paginator-page-selected){
+  background: #1e293b !important;
+  color: #22d3ee !important;
+  font-weight: bold;
+  font-size: 20px;
+}
+
 :deep(.p-paginator-rpp-dropdown):focus {
   border-color: #22d3ee !important;
 }
 
-.search-field :deep(.p-icon) {
-  color: #22d3ee;
-}
-
-/* Context menu highlight */
-:deep(.p-datatable-tbody > tr.p-contextmenu-selected) {
-  background: rgba(34, 211, 238, 0.2) !important;
-}
-
-/* Expansion wrapper */
-.expansion-wrapper {
-  background: linear-gradient(135deg, #0f172a 0%, #020617 100%);
-  padding: 1.5rem;
-  margin: 0.5rem 0;
-  border-left: 4px solid #22d3ee;
-  border-radius: 8px;
-}
-
-.subTable {
-  margin-left: 2rem;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-}
-
-.subTable :deep(thead) {
-  background: linear-gradient(135deg, #334155 0%, #1e293b 100%);
-}
-
-.subTable :deep(th) {
-  background: linear-gradient(135deg, #334155 0%, #1e293b 100%);
-  color: #67e8f9;
-  font-weight: 600;
-  padding: 0.875rem;
-  border-bottom: 2px solid #475569;
-  font-size: 0.8125rem;
-}
-
-.subTable :deep(tbody tr) {
-  background: #1e293b;
-  border-bottom: 1px solid #334155;
-}
-
-.subTable :deep(tbody tr:hover) {
-  background: #334155;
-}
-
-.subTable :deep(tbody td) {
-  color: #cbd5e1;
-  padding: 0.875rem;
-}
 </style>

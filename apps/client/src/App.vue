@@ -28,13 +28,3 @@ export default {
   }
 }
 </script>
-
-<style scoped> 
-
-.tableContainer {
-  width: 80%;
-  margin: auto;
-  margin-top: 50px;
-}
-
-</style>
