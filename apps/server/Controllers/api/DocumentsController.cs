@@ -20,8 +20,8 @@ namespace profisysApp.Controllers
         {
             try
             {
-                var query = _context.Documents.Include(d => d.DocumentItem).AsQueryable();
-                return Ok(await query.ToListAsync());
+                var documents = await _context.Documents.Include(d => d.DocumentItem).AsQueryable().ToListAsync();
+                return Ok(documents);
             } catch (Microsoft.Data.Sqlite.SqliteException exception)
             {
                 return StatusCode(500, $"Błąd bazy danych: {exception.Message}");
