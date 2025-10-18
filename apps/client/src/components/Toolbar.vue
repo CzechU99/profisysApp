@@ -10,7 +10,7 @@
           label="Wczytaj dokumenty" 
           icon="pi pi-download" 
           class="btn-load"
-          @click="loadAllDocuments"
+          @click="store.loadDocsToDatabase"
         />
         
         <Button 
@@ -19,40 +19,17 @@
           class="btn-clear"
           severity="danger"
           outlined
-          @click="deleteAllDocuments"
+          @click="store.deleteAllDocuments"
         />
       </template>
     </Toolbar>
   </div>
 </template>
 
-<script>
-import { ref } from 'vue'
-import { clearAllDocuments, fetchAllDocuments } from '../api/documentsService'
+<script setup>
+import { useDocumentsStore } from '../stores/documents'
 
-export default {
-  setup() {
-
-    const documents = ref([])
-
-    const loadAllDocuments = async() => {
-      await fetchAllDocuments()
-      console.log('Dokumenty zostały wczytane.')
-    }
-
-    const deleteAllDocuments = async () => {
-      try {
-        await clearAllDocuments() 
-        documents.value = []       
-        console.log('Dokumenty zostały usunięte.')
-      } catch (error) {
-        console.error('Błąd podczas usuwania dokumentów:', error)
-      }
-    }
-
-    return { loadAllDocuments, deleteAllDocuments }
-  }
-}
+const store = useDocumentsStore()
 </script>
 
 <style scoped>

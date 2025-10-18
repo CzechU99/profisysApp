@@ -2,7 +2,7 @@
   <DataTable 
     v-model:filters="filters"
     v-model:expandedRows="expandedRows"
-    :value="documents" 
+    :value="store.documents" 
     dataKey="id" 
     :paginator="true" 
     :rows="10" 
@@ -54,23 +54,19 @@
 
 <script>
 import { ref, onMounted } from 'vue'
-import { getAllDocuments } from '../api/documentsService'
 import { FilterMatchMode } from '@primevue/core/api'
+import { useDocumentsStore } from '../stores/documents'
 
 export default {
   setup() {
-    const documents = ref([])
+    const store = useDocumentsStore()
     const expandedRows = ref([])
     
     const filters = ref({
       global: { value: null, matchMode: FilterMatchMode.CONTAINS }
     })
 
-    onMounted(async () => {
-      documents.value = await getAllDocuments()
-    })
-
-    return { documents, filters, expandedRows }
+    return { store, filters, expandedRows }
   }
 }
 </script>
