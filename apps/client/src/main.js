@@ -9,6 +9,9 @@ import Column from 'primevue/column'
 import IconField from "primevue/iconfield";
 import InputIcon from "primevue/inputicon";
 import InputText from "primevue/inputtext";
+import Button from "primevue/button";
+import Toolbar from 'primevue/toolbar';
+
 
 import '@fontsource/inter'
 import 'primeicons/primeicons.css'
@@ -31,5 +34,7 @@ app.component('Column', Column)
 app.component('InputText', InputText)
 app.component('IconField', IconField)
 app.component('InputIcon', InputIcon)
+app.component('Toolbar', Toolbar)
+app.component('Button', Button)
 
 app.mount('#app')

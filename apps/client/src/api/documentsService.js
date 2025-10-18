@@ -11,3 +11,23 @@ export const getAllDocuments = async () => {
     throw error;
   } 
 };
+
+export const fetchAllDocuments = async () => {
+  try {
+    const response = await axios.post(`${API_URL}/CsvFiles/ImportCsv`);
+    return response.data;
+  } catch (error) {
+    console.error('Błąd ładowania dokumentów:', error);
+    throw error;
+  } 
+};
+
+export const clearAllDocuments = async () => {
+  try {
+    const response = await axios.delete(`${API_URL}/Documents/DeleteDocuments`);
+    return response.data;
+  } catch (error) {
+    console.error('Błąd usuwania dokumentów:', error);
+    throw error;
+  } 
+};

@@ -1,4 +1,7 @@
 <template>
+
+  <Toolbar />
+
   <div class="tableContainer">
     <DocumentsTable />
   </div>
@@ -6,9 +9,10 @@
 
 <script>
 import DocumentsTable from './components/DocumentsTable.vue';
+import Toolbar from './components/Toolbar.vue';
 
 export default {
-  components: { DocumentsTable }
+  components: { DocumentsTable, Toolbar }
 };
 </script>
 
