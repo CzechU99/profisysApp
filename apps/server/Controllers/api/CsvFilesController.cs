@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using profisysApp.Services;
 using profisysApp.Config;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace profisysApp.Controllers
 {
@@ -22,6 +23,7 @@ namespace profisysApp.Controllers
         }
 
         [HttpPost("ImportCsv")]
+        [Authorize]
         public IActionResult ImportCsv()
         {
             try

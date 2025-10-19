@@ -1,6 +1,7 @@
 using profisysApp.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace profisysApp.Controllers
 {
@@ -16,6 +17,7 @@ namespace profisysApp.Controllers
         }
 
         [HttpGet("GetAllDocuments")]
+        [Authorize]
         public async Task<IActionResult> GetAllDocuments()
         {
             try
@@ -30,6 +32,7 @@ namespace profisysApp.Controllers
         }
 
         [HttpDelete("DeleteDocuments")]
+        [Authorize]
         public async Task<IActionResult> DeleteDocuments()
         {
             try
@@ -51,8 +54,9 @@ namespace profisysApp.Controllers
                 return StatusCode(500, $"Błąd: {exception.Message}");
             }
         }
-        
+
         [HttpDelete("DeleteDocument/{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteDocument(int id)
         {
             try

@@ -11,6 +11,8 @@ namespace profisysApp.Data
 
         public DbSet<Documents> Documents { get; set; }
         public DbSet<DocumentItems> DocumentItems { get; set; }
+        public DbSet<User> Users { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

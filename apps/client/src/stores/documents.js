@@ -16,7 +16,7 @@ export const useDocumentsStore = defineStore('documents', () => {
       documents.value = response
       toast.info('Dokumenty wczytane pomyślnie!')
     } catch (responseError) {
-      toast.error('Nie udało się pobrać dokumentów.')
+      toast.error('Nie udało się pobrać dokumentów z bazy danych.')
     } finally {
       loading.value = false
     }
@@ -40,7 +40,7 @@ export const useDocumentsStore = defineStore('documents', () => {
       documents.value = response
       toast.info('Dokumenty dodane do bazy danych i\nwczytane pomyślnie!')
     } catch (responseError) {
-      toast.error('Błąd wczytywania dokumentów.')
+      toast.error('Nie udało się wczytać dokumentów do bazy danych.')
     } finally {
       loading.value = false
     }
