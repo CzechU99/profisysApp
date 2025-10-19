@@ -1,19 +1,22 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import { useToast } from 'vue-toastification'
 import { getAllDocuments, clearAllDocuments, fetchAllDocuments, deleteDocument } from '../api/documentsService'
 
 export const useDocumentsStore = defineStore('documents', () => {
   const documents = ref([])
   const loading = ref(false)
   const error = ref(null)
+  const toast = useToast()
 
   async function loadAllDocuments() {
     try {
       loading.value = true
       const response = await getAllDocuments()
       documents.value = response
+      toast.info('Dokumenty wczytane pomyślnie!')
     } catch (responseError) {
-      error.value = responseError
+      toast.error('Nie udało się pobrać dokumentów.')
     } finally {
       loading.value = false
     }
@@ -23,8 +26,9 @@ export const useDocumentsStore = defineStore('documents', () => {
     try {
       await clearAllDocuments()
       documents.value = [] 
+      toast.info('Usunięto wszystkie dokumenty!')
     } catch (responseError) {
-      error.value = responseError
+      toast.error('Brak dokumentów do usunięcia.')
     }
   }
 
@@ -34,8 +38,9 @@ export const useDocumentsStore = defineStore('documents', () => {
       await fetchAllDocuments()
       const response = await getAllDocuments()
       documents.value = response
+      toast.info('Dokumenty dodane do bazy danych i\nwczytane pomyślnie!')
     } catch (responseError) {
-      error.value = responseError
+      toast.error('Błąd wczytywania dokumentów.')
     } finally {
       loading.value = false
     }
@@ -45,8 +50,9 @@ export const useDocumentsStore = defineStore('documents', () => {
     try {
       await deleteDocument(id)
       documents.value = documents.value.filter(doc => doc.id !== id)
+      toast.info('Dokument usunięto pomyślnie!')
     } catch (responseError) {
-      error.value = responseError
+      toast.error('Nie udało się usunąć dokumentu.')
     }
   }
 

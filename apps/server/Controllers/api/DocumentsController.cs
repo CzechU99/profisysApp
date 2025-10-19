@@ -23,17 +23,9 @@ namespace profisysApp.Controllers
                 var documents = await _context.Documents.Include(d => d.DocumentItem).AsQueryable().ToListAsync();
                 return Ok(documents);
             }
-            catch (Microsoft.Data.Sqlite.SqliteException exception)
-            {
-                return StatusCode(500, $"Błąd bazy danych: {exception.Message}");
-            }
-            catch (InvalidOperationException exception)
-            {
-                return StatusCode(500, $"Błąd odczyty z bazy danych: {exception.Message}");
-            }
             catch (Exception exception)
             {
-                return StatusCode(500, $"Nieoczekiwny błąd: {exception.Message}");
+                return StatusCode(500, $"Błąd: {exception.Message}");
             }
         }
 
@@ -56,7 +48,7 @@ namespace profisysApp.Controllers
             }
             catch (Exception exception)
             {
-                return StatusCode(500, $"Nieoczekiwny błąd: {exception.Message}");
+                return StatusCode(500, $"Błąd: {exception.Message}");
             }
         }
         
