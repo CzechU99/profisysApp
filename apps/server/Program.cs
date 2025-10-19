@@ -4,6 +4,7 @@ using profisysApp.Services;
 using profisysApp.Config;
 
 var builder = WebApplication.CreateBuilder(args);
+var appSettings = new AppSettings();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -13,7 +14,7 @@ builder.Services.AddDbContext<DatabaseContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<CsvImportService>();
-builder.Services.AddScoped<AppSettings>();
+builder.Services.AddSingleton(appSettings);
 
 
 
@@ -21,7 +22,7 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
     {
-        policy.WithOrigins("http://localhost:5173") 
+        policy.WithOrigins(appSettings.CLIENT_URL_ADDRESS) 
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
