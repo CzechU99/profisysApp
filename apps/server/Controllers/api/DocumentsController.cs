@@ -23,7 +23,7 @@ namespace profisysApp.Controllers
                 var documents = await _context.Documents.Include(d => d.DocumentItem).AsQueryable().ToListAsync();
                 if(documents.Count == 0)
                 {
-                    return NotFound("Nie znaleziono dokumentów.");
+                    return Ok("Brak dokumentów w bazie danych.");
                 }
                 return Ok(documents);
             }
@@ -50,7 +50,7 @@ namespace profisysApp.Controllers
 
                 if (documents.Count == 0)
                 {
-                    return NotFound("Nie znaleziono dokumentów do usunięcia.");
+                    return Ok("Brak dokumentów do usunięcia.");
                 }
 
                 _context.Documents.RemoveRange(documents);

@@ -19,7 +19,9 @@ export default {
     const store = useDocumentsStore()
     
     onMounted(async () => {
-      if(!await store.loadAllDocuments()){
+      await store.loadAllDocuments()
+
+      if (store.documents.length === 0) {
         await store.loadDocsToDatabase()
       }
     })

@@ -17,27 +17,32 @@ namespace profisysApp.Services
 
     public void Import(string documentsPath, string itemsPath)
     {
-        var documents = ReadCsv<Documents>(documentsPath);
-        var items = ReadCsv<DocumentItems>(itemsPath);
+      var documents = ReadCsv<Documents>(documentsPath);
+      var items = ReadCsv<DocumentItems>(itemsPath);
 
-        var itemsGrouped = items.GroupBy(i => i.DocumentId).ToDictionary(g => g.Key, g => g.ToList());
+      var itemsGrouped = items.GroupBy(i => i.DocumentId).ToDictionary(g => g.Key, g => g.ToList());
 
-        foreach (var doc in documents)
+      foreach (var doc in documents)
+      {
+        if (itemsGrouped.TryGetValue(doc.Id, out var docItems))
         {
-            if (itemsGrouped.TryGetValue(doc.Id, out var docItems))
-            {
-                doc.DocumentItem = docItems;
+          doc.DocumentItem = docItems;
 
-                foreach (var item in docItems)
-                {
-                    item.DocumentId = doc.Id;
-                    item.Document = doc;
-                }
-            }
+          foreach (var item in docItems)
+          {
+            item.DocumentId = doc.Id;
+            item.Document = doc;
+          }
         }
 
-        _context.Documents.AddRange(documents);
-        _context.SaveChanges();
+        var exists = _context.Documents.Any(d => d.Id == doc.Id);
+        if (!exists)
+        {
+          _context.Documents.Add(doc);
+        }
+      }
+
+      _context.SaveChanges();
     }
 
     private List<T> ReadCsv<T>(string path)
