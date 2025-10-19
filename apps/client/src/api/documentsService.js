@@ -1,13 +1,22 @@
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_BASE_URL;
+const API_URL = import.meta.env.VITE_API_BASE_URL
+
+axios.interceptors.request.use(config => {
+  const token = localStorage.getItem('token')
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`
+  }
+  return config
+})
 
 export const getAllDocuments = async () => {
   try {
     const response = await axios.get(`${API_URL}/Documents/GetAllDocuments`);
     return response.data;
   } catch (error) {
-    throw new Error(error.response.data);
+    console.error('Błąd pobierania dokumentów:', error);
+    throw error;
   } 
 };
 
@@ -16,7 +25,8 @@ export const fetchAllDocuments = async () => {
     const response = await axios.post(`${API_URL}/CsvFiles/ImportCsv`);
     return response.data;
   } catch (error) {
-    throw new Error(error.response.data);
+    console.error('Błąd ładowania dokumentów:', error);
+    throw error;
   } 
 };
 
@@ -25,7 +35,8 @@ export const clearAllDocuments = async () => {
     const response = await axios.delete(`${API_URL}/Documents/DeleteDocuments`);
     return response.data;
   } catch (error) {
-    throw new Error(error.response.data);
+    console.error('Błąd usuwania dokumentów:', error);
+    throw error;
   } 
 };
 
@@ -34,6 +45,7 @@ export const deleteDocument = async (id) => {
     const response = await axios.delete(`${API_URL}/Documents/DeleteDocument/${id}`);
     return response.data;
   } catch (error) {
-    throw new Error(error.response.data);
+    console.error('Błąd usuwania dokumentu:', error);
+    throw error;
   } 
 };

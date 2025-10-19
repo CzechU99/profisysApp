@@ -2,7 +2,6 @@ using profisysApp.Data;
 using Microsoft.EntityFrameworkCore;
 using profisysApp.Services;
 using profisysApp.Config;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 

@@ -38,7 +38,7 @@ export const useDocumentsStore = defineStore('documents', () => {
       await fetchAllDocuments()
       const response = await getAllDocuments()
       documents.value = response
-      toast.info('Dokumenty dodane do bazy danych i\nwczytane pomyślnie!')
+      toast.info('Dokumenty wczytane pomyślnie!')
     } catch (responseError) {
       toast.error('Nie udało się wczytać dokumentów do bazy danych.')
     } finally {

@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using profisysApp.Services;
 using profisysApp.Config;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 
 namespace profisysApp.Controllers

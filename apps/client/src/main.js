@@ -6,6 +6,7 @@ import './assets/style/toolbar.css'
 import App from './App.vue'
 import Toast, { POSITION } from 'vue-toastification'
 import 'vue-toastification/dist/index.css'
+import router from './router'
 
 import PrimeVue from 'primevue/config'
 import Material from '@primevue/themes/material'
@@ -51,6 +52,8 @@ app.use(PrimeVue, {
     }
   }
 })
+
+app.use(router)
 
 app.component('DataTable', DataTable)
 app.component('Column', Column)
