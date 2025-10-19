@@ -12,9 +12,8 @@ export const useDocumentsStore = defineStore('documents', () => {
       loading.value = true
       const response = await getAllDocuments()
       documents.value = response
-    } catch (err) {
-      console.error('Błąd wczytywania dokumentów:', err)
-      error.value = err
+    } catch (responseError) {
+      error.value = responseError
     } finally {
       loading.value = false
     }
@@ -24,9 +23,8 @@ export const useDocumentsStore = defineStore('documents', () => {
     try {
       await clearAllDocuments()
       documents.value = [] 
-    } catch (err) {
-      console.error('Błąd usuwania dokumentów:', err)
-      error.value = err
+    } catch (responseError) {
+      error.value = responseError
     }
   }
 
@@ -36,9 +34,8 @@ export const useDocumentsStore = defineStore('documents', () => {
       await fetchAllDocuments()
       const response = await getAllDocuments()
       documents.value = response
-    } catch (err) {
-      console.error('Błąd wczytywania dokumentów:', err)
-      error.value = err
+    } catch (responseError) {
+      error.value = responseError
     } finally {
       loading.value = false
     }
@@ -48,9 +45,8 @@ export const useDocumentsStore = defineStore('documents', () => {
     try {
       await deleteDocument(id)
       documents.value = documents.value.filter(doc => doc.id !== id)
-    } catch (err) {
-      console.error('Błąd usuwania dokumentów:', err)
-      error.value = err
+    } catch (responseError) {
+      error.value = responseError
     }
   }
 

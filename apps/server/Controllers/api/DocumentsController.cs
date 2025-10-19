@@ -21,10 +21,6 @@ namespace profisysApp.Controllers
             try
             {
                 var documents = await _context.Documents.Include(d => d.DocumentItem).AsQueryable().ToListAsync();
-                if(documents.Count == 0)
-                {
-                    return Ok("Brak dokumentów w bazie danych.");
-                }
                 return Ok(documents);
             }
             catch (Microsoft.Data.Sqlite.SqliteException exception)
