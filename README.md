@@ -102,7 +102,7 @@ Celem aplikacji **ProfisysApp** jest stworzenie systemu do zarządzania dokument
 
 ### Backend:
 1. Skonfiguruj plik `appsettings.json` z danymi do bazy danych. Jeśli korzystasz z `SQLite` nie zmieniaj nic:
-```json
+```env
 {
   "ConnectionStrings": {
     "DefaultConnection": "Data Source=documents.db"
@@ -111,12 +111,12 @@ Celem aplikacji **ProfisysApp** jest stworzenie systemu do zarządzania dokument
 ```
 
 2. W pliku konfiguracyjnym `./apps/server/Config/AppSettings.cs` w zmiennej `CLIENT_URL_ADDRESS` wpisz adres na, na którym pracuje twój Client:
-```json
+```env
 public string CLIENT_URL_ADDRESS { get; set; } = "http://localhost:5173";
 ```
 
 3. Jeżeli pojawi sie problem z bazą danych wczytaj ostatnią migrację:
-```json
+```env
 dotnet ef database update
 ```
 
@@ -130,17 +130,17 @@ dotnet run
 
 ### Frontend
 1. W ścieżce `./apps/client` zainstaluj zależności:
-```json
+```env
 npm install
 ```
 
 2. W pliku konfiguracyjnym `.env.development` ustaw zmienną `VITE_API_BASE_URL` na adres twojego serwera:
-```json
+```env
 VITE_API_BASE_URL=http://localhost:5011/api
 ```
 
 3. Uruchom aplikację:
-```json
+```env
 npm run dev
 ```
 ---
@@ -148,7 +148,7 @@ npm run dev
 ## 🔐 Autoryzacja
 - Po zalogowaniu token JWT zapisywany jest w localStorage.
 - Każde zapytanie do API wysyła nagłówek:
-```json
+```env
 Authorization: Bearer <token>
 ```
 - Ochrona tras w Vue Router pilnuje, by użytkownik niezalogowany nie miał dostępu do widoków z dokumentami.
