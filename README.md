@@ -121,7 +121,7 @@ dotnet ef database update
 ```
 
 4. Uruchom projekt w Visual Studio lub za pomocą terminala. W ścieżce `./apps/server/` użyj komend:
-```json
+```env
 dotnet build
 dotnet run
 ```
