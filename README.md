@@ -47,7 +47,7 @@ Celem aplikacji **ProfisysApp** jest stworzenie systemu do zarządzania dokument
 ## 🔐 Przykładowe konta użytkowników
 
 | Login  | Hasło | Rola |
-|-------|--------------|
+|-------|--------|-----|
 | admin | admin | Admin |
 | user | user | User |
 
