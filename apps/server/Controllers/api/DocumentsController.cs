@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace profisysApp.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/documents")]
     public class DocumentsController : ControllerBase
     {
         private readonly DatabaseContext _context;
@@ -16,7 +16,7 @@ namespace profisysApp.Controllers
             _context = context;
         }
 
-        [HttpGet("GetAllDocuments")]
+        [HttpGet]
         [Authorize(Roles = "User,Admin")]
         public async Task<IActionResult> GetAllDocuments()
         {
@@ -31,15 +31,15 @@ namespace profisysApp.Controllers
             }
         }
 
-        [HttpDelete("DeleteDocuments")]
+        [HttpDelete]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> DeleteDocuments()
+        public async Task<IActionResult> DeleteAllDocuments()
         {
             try
             {
-                var documents = await _context.Documents.Include(d => d.DocumentItem).AsQueryable().ToListAsync();
+                var documents = await _context.Documents.Include(d => d.DocumentItem).ToListAsync();
 
-                if (documents.Count == 0)
+                if (documents.Any())
                 {
                     return Ok("Brak dokumentów do usunięcia.");
                 }
@@ -55,7 +55,7 @@ namespace profisysApp.Controllers
             }
         }
 
-        [HttpDelete("DeleteDocument/{id}")]
+        [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteDocument(int id)
         {

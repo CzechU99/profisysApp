@@ -39,8 +39,8 @@
 </template>
 
 <script setup>
-import { useDocumentsStore } from '../stores/documents'
-import { useAuthStore } from '../stores/authentication'
+import { useDocumentsStore } from '../stores/documentsStore'
+import { useAuthStore } from '../stores/authStore'
 import { useToast } from 'vue-toastification'
 
 const store = useDocumentsStore()

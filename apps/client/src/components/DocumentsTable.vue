@@ -62,7 +62,7 @@
 <script>
 import { ref, computed } from 'vue'
 import { FilterMatchMode } from '@primevue/core/api'
-import { useDocumentsStore } from '../stores/documents'
+import { useDocumentsStore } from '../stores/documentsStore'
 
 export default {
   setup() {

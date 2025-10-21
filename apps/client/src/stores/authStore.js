@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
-import axios from 'axios'
 import router from '../router'
-import {jwtDecode} from 'jwt-decode'
+import { jwtDecode } from 'jwt-decode'
+import { loginUser } from '../api/authService'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
@@ -11,10 +11,9 @@ export const useAuthStore = defineStore('auth', {
 
   actions: {
     async login(username, password) {
-      const API_URL = import.meta.env.VITE_API_BASE_URL;
-      const response = await axios.post(`${API_URL}/Authentication/login`, { username, password })
+      const response = await loginUser(username, password)
       
-      this.token = response.data.token
+      this.token = response.token
       localStorage.setItem('token', this.token)
 
       const decoded = jwtDecode(this.token)

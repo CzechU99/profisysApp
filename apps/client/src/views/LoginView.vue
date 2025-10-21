@@ -24,7 +24,7 @@
 
 <script>
 import { ref } from 'vue'
-import { useAuthStore } from '../stores/authentication'
+import { useAuthStore } from '../stores/authStore'
 import { useToast } from 'vue-toastification'
 
 

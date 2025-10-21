@@ -5,18 +5,18 @@ using profisysApp.Models;
 namespace profisysApp.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
-    public class AuthenticationController : ControllerBase
+    [Route("api/auth")]
+    public class AuthController : ControllerBase
     {
-        private readonly AuthenticationService _authService;
+        private readonly AuthService _authService;
 
-        public AuthenticationController(AuthenticationService authService)
+        public AuthController(AuthService authService)
         {
             _authService = authService;
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] LoginRequest request)
+        public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
             var success = await _authService.Register(request.Username, request.Password);
             if (!success)

@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import DocumentsPage from '../components/DocumentsPage.vue'
-import LoginPage from '../components/LoginPage.vue'
+import DocumentsPage from '../views/DocumentsView.vue'
+import LoginPage from '../views/LoginView.vue'
 
 function isLoggedIn() {
   return !!localStorage.getItem('token') 

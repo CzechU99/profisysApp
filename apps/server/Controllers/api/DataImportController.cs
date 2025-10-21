@@ -6,14 +6,14 @@ using Microsoft.AspNetCore.Authorization;
 namespace profisysApp.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
-    public class CsvFilesController : ControllerBase
+    [Route("api/dataImport")]
+    public class DataImportController : ControllerBase
     {
-        private readonly CsvImportService _importService;
+        private readonly DataImportService _importService;
         private readonly AppSettings _appSettings;
 
-        public CsvFilesController(
-            CsvImportService importService,
+        public DataImportController(
+            DataImportService importService,
             AppSettings appSettings
         )
         {
@@ -21,13 +21,13 @@ namespace profisysApp.Controllers
             _appSettings = appSettings;
         }
 
-        [HttpPost("ImportCsv")]
+        [HttpPost("csvFiles")]
         [Authorize(Roles = "Admin")]
-        public IActionResult ImportCsv()
+        public async Task<IActionResult> ImportCsv()
         {
             try
             {
-                _importService.Import(_appSettings.PATH_TO_DOCUMENTS_CSV, _appSettings.PATH_TO_DOCUMENT_ITEMS_CSV);
+                await _importService.Import(_appSettings.PATH_TO_DOCUMENTS_CSV, _appSettings.PATH_TO_DOCUMENT_ITEMS_CSV);
                 return Ok(new { message = "Dane zostały zaimportowane" });
             }
             catch (Exception exception)

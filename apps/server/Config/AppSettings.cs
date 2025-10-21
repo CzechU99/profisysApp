@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace profisysApp.Config
 {
     public class AppSettings
@@ -6,5 +8,7 @@ namespace profisysApp.Config
         public string PATH_TO_DOCUMENT_ITEMS_CSV { get; set; } = "Docs/DocumentItems.csv";
         public string CLIENT_URL_ADDRESS { get; set; } = "http://localhost:5173";
         public int JWT_EXPIRE_TIME { get; set; } = 1;
+        public CultureInfo CSV_POLISH_CULTURE = CultureInfo.GetCultureInfo("pl-PL");
+
     }
 }
