@@ -17,7 +17,7 @@ namespace profisysApp.Controllers
         }
 
         [HttpGet("GetAllDocuments")]
-        [Authorize]
+        [Authorize(Roles = "User,Admin")]
         public async Task<IActionResult> GetAllDocuments()
         {
             try
@@ -32,7 +32,7 @@ namespace profisysApp.Controllers
         }
 
         [HttpDelete("DeleteDocuments")]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteDocuments()
         {
             try
@@ -56,7 +56,7 @@ namespace profisysApp.Controllers
         }
 
         [HttpDelete("DeleteDocument/{id}")]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteDocument(int id)
         {
             try

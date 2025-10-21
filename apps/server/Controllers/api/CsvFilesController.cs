@@ -22,7 +22,7 @@ namespace profisysApp.Controllers
         }
 
         [HttpPost("ImportCsv")]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public IActionResult ImportCsv()
         {
             try

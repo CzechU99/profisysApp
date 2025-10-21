@@ -5,6 +5,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using profisysApp.Config;
 
 namespace profisysApp.Services
 {
@@ -13,21 +14,23 @@ namespace profisysApp.Services
   {
     private readonly DatabaseContext _context;
     private readonly IConfiguration _config;
+    private readonly AppSettings _settings;
 
-    public AuthenticationService(DatabaseContext context, IConfiguration config)
+    public AuthenticationService(DatabaseContext context, IConfiguration config, AppSettings settings)
     {
+      _settings = settings;
       _context = context;
       _config = config;
     }
 
-    public async Task<bool> Register(string username, string password)
+    public async Task<bool> Register(string username, string password, string role = "User")
     {
       if (_context.Users.Any(u => u.Username == username))
         return false;
 
       CreatePasswordHash(password, out byte[] hash, out byte[] salt);
 
-      var user = new User { Username = username, PasswordHash = hash, PasswordSalt = salt };
+      var user = new User { Username = username, PasswordHash = hash, PasswordSalt = salt, Role = role };
       _context.Users.Add(user);
       await _context.SaveChangesAsync();
       return true;
@@ -58,13 +61,19 @@ namespace profisysApp.Services
 
     private string CreateToken(User user)
     {
-      var claims = new List<Claim> { new Claim(ClaimTypes.Name, user.Username) };
+      var claims = new List<Claim>
+    {
+        new Claim(JwtRegisteredClaimNames.Sub, user.Username),  // będzie jako "sub"
+        new Claim("username", user.Username),                        // będzie jako "name"
+        new Claim("role", user.Role)                             // będzie jako "role"
+    };
+      
       var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]!));
       var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
       var token = new JwtSecurityToken(
           claims: claims,
-          expires: DateTime.Now.AddHours(3),
+          expires: DateTime.UtcNow.AddHours(_settings.JWT_EXPIRE_TIME),
           signingCredentials: creds
       );
 

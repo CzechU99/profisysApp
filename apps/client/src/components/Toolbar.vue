@@ -12,6 +12,7 @@
           icon="pi pi-download" 
           class="btn-load"
           @click="store.loadDocsToDatabase"
+          v-if="auth.isAdmin"
         />
         
         <Button 
@@ -21,6 +22,7 @@
           severity="danger"
           outlined
           @click="store.deleteAllDocuments"
+          v-if="auth.isAdmin"
         />
 
         <Button 

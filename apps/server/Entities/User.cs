@@ -17,5 +17,8 @@ namespace profisysApp.Entities
         [Required]
         public byte[] PasswordSalt { get; set; } = null!;
 
+        [Required]
+        public string Role { get; set; } = "User";
+
     }
 }

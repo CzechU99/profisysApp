@@ -7,6 +7,7 @@
         placeholder="Nazwa użytkownika"
         required
         class="input-field"
+        autocomplete="username"
       />
       <input
         type="password"
@@ -14,6 +15,7 @@
         placeholder="Hasło"
         required
         class="input-field"
+        autocomplete="current-password"
       />
       <button type="submit" class="login-button">Zaloguj</button>
     </form>

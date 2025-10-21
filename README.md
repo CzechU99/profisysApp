@@ -39,7 +39,8 @@ Celem aplikacji **ProfisysApp** jest stworzenie systemu do zarządzania dokument
 
 | Rola  | Uprawnienia |
 |-------|--------------|
-| Administrator | Logowanie, pobieranie dokumentów, import CSV, usuwanie dokumentów, dostęp tylko po autoryzacji JWT. |
+| Admin | Logowanie, pobieranie dokumentów, import CSV, usuwanie dokumentów. |
+| User | Logowanie, przeglądanie dokumentów. |
 
 ---
 
@@ -115,14 +116,27 @@ Celem aplikacji **ProfisysApp** jest stworzenie systemu do zarządzania dokument
 public string CLIENT_URL_ADDRESS { get; set; } = "http://localhost:5173";
 ```
 
-3. Jeżeli pojawi sie problem z bazą danych wczytaj ostatnią migrację:
+3. Zainstaluj wszystkie zależności:
+```env
+dotnet restore
+```
+
+4. Upewnij się że posiadasz zainstalowane narzędzie dotnet-ef:
+```env
+dotnet ef --version
+```
+jeśli nie, to je zainstaluj:
+```env
+dotnet tool install --global dotnet-ef
+```
+
+5. Jeżeli pojawi sie problem z bazą danych wczytaj ostatnią migrację:
 ```env
 dotnet ef database update
 ```
 
-4. Uruchom projekt w Visual Studio lub za pomocą terminala. W ścieżce `./apps/server/` użyj komend:
+6. Uruchom projekt w Visual Studio lub za pomocą terminala. W ścieżce `./apps/server/` użyj komend:
 ```env
-dotnet build
 dotnet run
 ```
 
