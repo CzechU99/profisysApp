@@ -63,9 +63,9 @@ namespace profisysApp.Services
     {
       var claims = new List<Claim>
     {
-        new Claim(JwtRegisteredClaimNames.Sub, user.Username),  // będzie jako "sub"
-        new Claim("username", user.Username),                        // będzie jako "name"
-        new Claim("role", user.Role)                             // będzie jako "role"
+        new Claim(JwtRegisteredClaimNames.Sub, user.Username),  
+        new Claim("username", user.Username),                        
+        new Claim("role", user.Role)                             
     };
       
       var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]!));

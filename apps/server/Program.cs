@@ -18,8 +18,7 @@ builder.Services.AddDbContext<DatabaseContext>(options =>
 builder.Services.AddScoped<CsvImportService>();
 builder.Services.AddScoped<AuthenticationService>();
 builder.Services.AddSingleton(appSettings);
-
-
+builder.Services.AddHostedService<DatabaseSeeder>();
 
 builder.Services.AddCors(options =>
 {
