@@ -3,7 +3,8 @@
   <Toolbar />
 
   <div class="tableContainer">
-    <DocumentsTable />
+    <ProgressSpinner v-if="store.loading || store.deleting" class="my-spinner" />
+    <DocumentsTable v-else :documents="store.documents" :deleting="store.deleting" />
   </div>
   
 </template>
@@ -27,3 +28,12 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.my-spinner{
+  display:flex; 
+  justify-content:center; 
+  align-items:center; 
+  height:300px;
+}
+</style>

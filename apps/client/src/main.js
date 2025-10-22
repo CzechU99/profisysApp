@@ -9,6 +9,7 @@ import 'vue-toastification/dist/index.css'
 import router from './router'
 
 import PrimeVue from 'primevue/config'
+import ProgressSpinner from 'primevue/progressspinner'
 import Material from '@primevue/themes/material'
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
@@ -63,5 +64,6 @@ app.component('InputIcon', InputIcon)
 app.component('Toolbar', Toolbar)
 app.component('Button', Button)
 app.component('ContextMenu', ContextMenu)
+app.component('ProgressSpinner', ProgressSpinner)
 
 app.mount('#app')

@@ -139,7 +139,7 @@ jeśli nie, to je zainstaluj:
 dotnet tool install --global dotnet-ef
 ```
 
-5. Jeżeli pojawi sie problem z bazą danych wczytaj ostatnią migrację:
+5. Wczytaj ostatnią migrację bazy danych:
 ```env
 dotnet ef database update
 ```

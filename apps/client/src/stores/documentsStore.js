@@ -6,6 +6,7 @@ import { getAllDocuments, clearAllDocuments, fetchAllDocuments, deleteDocument }
 export const useDocumentsStore = defineStore('documents', () => {
   const documents = ref([])
   const loading = ref(false)
+  const deleting = ref(false)  
   const error = ref(null)
   const toast = useToast()
 
@@ -43,12 +44,15 @@ export const useDocumentsStore = defineStore('documents', () => {
   }
 
   async function deleteAllDocuments() {
+    deleting.value = true
     try {
       const response = await clearAllDocuments()
       this.clearDocuments()
       toast.info(response.data.message)
     } catch (error) {
       handleApiError(error)
+    } finally {
+      deleting.value = false
     }
   }
 
@@ -86,6 +90,7 @@ export const useDocumentsStore = defineStore('documents', () => {
   return {
     documents,
     loading,
+    deleting,
     error,
     loadAllDocuments,
     deleteAllDocuments,
