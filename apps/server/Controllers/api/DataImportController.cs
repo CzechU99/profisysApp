@@ -11,14 +11,17 @@ namespace profisysApp.Controllers
     {
         private readonly DataImportService _importService;
         private readonly AppSettings _appSettings;
+        private readonly AuditService _auditService;
 
         public DataImportController(
             DataImportService importService,
-            AppSettings appSettings
+            AppSettings appSettings,
+            AuditService auditService
         )
         {
             _importService = importService;
             _appSettings = appSettings;
+            _auditService = auditService;
         }
 
         [HttpPost("csvFiles")]
@@ -28,6 +31,7 @@ namespace profisysApp.Controllers
             try
             {
                 await _importService.Import(_appSettings.PATH_TO_DOCUMENTS_CSV, _appSettings.PATH_TO_DOCUMENT_ITEMS_CSV);
+                await _auditService.LogAsync(User, "ImportCSV");
                 return Ok(new { message = "Dane zostały zaimportowane do bazy danych!" });
             }
             catch 

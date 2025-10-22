@@ -2,7 +2,7 @@
 
 <div align="center">
     <p>
-      <img alt="Status" src="https://img.shields.io/badge/status-beta-blue">
+      <img alt="Status" src="https://img.shields.io/badge/status-stabilna%20wersja-brightgreen">
       <img alt="Licencja" src="https://img.shields.io/badge/licencja-prywatna-lightgrey">
     </p>
     <p>
@@ -66,6 +66,8 @@ Celem aplikacji **ProfisysApp** jest stworzenie systemu do zarządzania dokument
 - **Pinia** – zarządzanie stanem aplikacji.
 - **Axios** – komunikacja z backendem.
 - **Toastification** – powiadomienia dla użytkownika.
+- **Vite** – narzędzie do budowania i uruchamiania projektu frontendowego.
+- **PrimeVue** – biblioteka komponentów UI dla Vue.js.
 
 ---
 
@@ -80,6 +82,8 @@ Celem aplikacji **ProfisysApp** jest stworzenie systemu do zarządzania dokument
 | 📡 **Autoryzacja JWT** | Bezpieczny dostęp do endpointów API tylko dla zalogowanych użytkowników. |
 | 💬 **Powiadomienia** | Toasty informujące o powodzeniu lub błędach operacji. |
 | 🔄 **Routing** | Strony chronione i przekierowania na login w przypadku braku tokenu. |
+| 📜 **Audit.log** | Śledzi aktywność użytkowników – kto, kiedy i jaką operację wykonał. |
+| ⚠️ **Obsługa błędów** | Wyświetla powiadomienia o błędach operacji i informuje użytkownika o stanie akcji. |
 
 ---
 
@@ -87,12 +91,12 @@ Celem aplikacji **ProfisysApp** jest stworzenie systemu do zarządzania dokument
 
 | Metoda | Endpoint | Opis | Autoryzacja |
 |---------|-----------|------|--------------|
-| **POST** | `/api/Authentication/login` | Logowanie użytkownika i wygenerowanie tokenu JWT | ❌ |
-| **POST** | `/api/Authentication/register` | Rejestracja nowego użytkownika. Niedostępne na frontend. | ❌ |
-| **GET** | `/api/Documents/GetAllDocuments` | Pobranie wszystkich dokumentów z bazy danych | ✅ |
-| **DELETE** | `/api/Documents/DeleteDocument/{id}` | Usunięcie pojedynczego dokumentu po ID | ✅ |
-| **DELETE** | `/api/Documents/DeleteDocuments` | Usunięcie wszystkich dokumentów z bazy | ✅ |
-| **POST** | `/api/CsvFiles/ImportCsv` | Import danych z plików CSV do bazy SQLite | ✅ |
+| **POST** | `/api/auth/login` | Logowanie użytkownika i wygenerowanie tokenu JWT | ❌ |
+| **POST** | `/api/auth/register` | Rejestracja nowego użytkownika. Niedostępne na frontend. | ❌ |
+| **GET** | `/api/documents` | Pobranie wszystkich dokumentów z bazy danych | ✅ |
+| **DELETE** | `/api/documents/{documentId}` | Usunięcie pojedynczego dokumentu po ID | ✅ |
+| **DELETE** | `/api/documents` | Usunięcie wszystkich dokumentów z bazy | ✅ |
+| **POST** | `/api/dataImport/csvFiles` | Import danych z plików CSV do bazy SQLite | ✅ |
 
 ✅ – wymaga tokenu JWT  
 ❌ – dostępny publicznie
@@ -110,7 +114,7 @@ Celem aplikacji **ProfisysApp** jest stworzenie systemu do zarządzania dokument
 
 ## 🔧 Instrukcja uruchomienia
 
-### Backend:
+### Backend (./apps/server):
 1. Skonfiguruj plik `appsettings.json` z danymi do bazy danych. Jeśli korzystasz z `SQLite` nie zmieniaj nic:
 ```env
 {
@@ -151,7 +155,7 @@ dotnet run
 
 ---
 
-### Frontend
+### Frontend (./apps/client)
 1. W ścieżce `./apps/client` zainstaluj zależności:
 ```env
 npm install

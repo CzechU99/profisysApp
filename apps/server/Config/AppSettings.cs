@@ -9,6 +9,6 @@ namespace profisysApp.Config
         public string CLIENT_URL_ADDRESS { get; set; } = "http://localhost:5173";
         public int JWT_EXPIRE_TIME { get; set; } = 1;
         public CultureInfo CSV_POLISH_CULTURE = CultureInfo.GetCultureInfo("pl-PL");
-
+        public string AUDIT_LOG_PATH { get; set; } = Path.Combine(Directory.GetCurrentDirectory(), "audit.log");
     }
 }

@@ -9,10 +9,12 @@ namespace profisysApp.Controllers
     public class DocumentsController : ControllerBase
     {
         private readonly DocumentsService _documentsService;
+        private readonly AuditService _auditService;
 
-        public DocumentsController(DocumentsService documentsService)
+        public DocumentsController(DocumentsService documentsService, AuditService auditService)
         {
             _documentsService = documentsService;
+            _auditService = auditService;
         }
 
         [HttpGet]
@@ -27,6 +29,7 @@ namespace profisysApp.Controllers
                     return Ok(new { message = "Administrator nie dodał żadnych dokumentów!"});
                 }
 
+                await _auditService.LogAsync(User, "Wczytanie dokumentów z bazy");
                 return Ok(new { documents, message = "Dokumenty wczytane pomyślnie!" });
             }
             catch 
@@ -49,6 +52,7 @@ namespace profisysApp.Controllers
                 }
 
                 await _documentsService.DeleteAllDocuments();
+                await _auditService.LogAsync(User, "Usunięcie wszystkich dokumentów z bazy");
 
                 return Ok(new { message = "Dokumenty zostały pomyślnie usunięte!" });
             }
@@ -72,6 +76,7 @@ namespace profisysApp.Controllers
                 }
 
                 await _documentsService.DeleteDocument(document);
+                await _auditService.LogAsync(User, "Usunięcie dokumentu", $"DocumentId: {documentId}");
 
                 return Ok(new { message = "Dokument został pomyślnie usunięty!" });
             }

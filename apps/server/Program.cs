@@ -24,6 +24,7 @@ builder.Services.AddScoped<DocumentsRepository>();
 builder.Services.AddScoped<DataImportService>();
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<DocumentsService>();
+builder.Services.AddSingleton<AuditService>();
 
 // Seeder
 builder.Services.AddHostedService<DatabaseSeeder>();
