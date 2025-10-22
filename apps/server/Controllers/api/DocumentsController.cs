@@ -1,6 +1,4 @@
-using profisysApp.Data;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using profisysApp.Services;
 

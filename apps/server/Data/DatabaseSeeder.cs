@@ -1,4 +1,3 @@
-using profisysApp.Data;
 using profisysApp.Repositories;
 
 public class DatabaseSeeder : IHostedService
