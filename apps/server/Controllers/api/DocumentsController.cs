@@ -22,11 +22,16 @@ namespace profisysApp.Controllers
             try
             {
                 var documents = await _documentsService.GetAllDocuments();
-                return Ok(documents);
+                if (documents == null || !documents.Any())
+                {
+                    return Ok(new { message = "Administrator nie dodał żadnych dokumentów!"});
+                }
+
+                return Ok(new { documents, message = "Dokumenty wczytane pomyślnie!" });
             }
-            catch (Exception exception)
+            catch 
             {
-                return StatusCode(500, $"Błąd: {exception.Message}");
+                return StatusCode(500, new { message = "Wystąpił błąd podczas pobierania dokumentów!" });
             }
         }
 
@@ -40,20 +45,20 @@ namespace profisysApp.Controllers
 
                 if (documents == null || !documents.Any())
                 {
-                    return Ok("Brak dokumentów do usunięcia.");
+                    return Ok(new { message = "Brak dokumentów do usunięcia!" });
                 }
 
                 await _documentsService.DeleteAllDocuments();
 
-                return Ok("Dokumenty zostały pomyślnie usunięte.");
+                return Ok(new { message = "Dokumenty zostały pomyślnie usunięte!" });
             }
-            catch (Exception exception)
+            catch 
             {
-                return StatusCode(500, $"Błąd: {exception.Message}");
+                return StatusCode(500, new { message = "Błąd podczas usuwania dokumentów!" });
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{documentId}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteDocument(int documentId)
         {
@@ -63,17 +68,16 @@ namespace profisysApp.Controllers
 
                 if (document == null)
                 {
-                    return NotFound("Nie znaleziono dokumentu do usunięcia.");
+                    return NotFound(new { message = "Nie znaleziono takiego dokumentu!" });
                 }
 
                 await _documentsService.DeleteDocument(document);
-                
 
-                return Ok("Dokument został pomyślnie usunięty.");
+                return Ok(new { message = "Dokument został pomyślnie usunięty!" });
             }
-            catch (Exception exception)
+            catch 
             {
-                return StatusCode(500, $"Nieoczekiwny błąd: {exception.Message}");
+                return StatusCode(500, new { message = "Błąd podczas usuwania dokumentu!" });
             }
         }
 

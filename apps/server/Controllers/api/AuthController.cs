@@ -20,8 +20,8 @@ namespace profisysApp.Controllers
         {
             var success = await _authService.Register(request.Username, request.Password);
             if (!success)
-                return BadRequest("Użytkownik już istnieje.");
-            return Ok("Rejestracja udana.");
+                return BadRequest(new { message = "Użytkownik już istnieje." });
+            return Ok(new { message = "Rejestracja udana." });
         }
 
         [HttpPost("login")]
@@ -29,8 +29,8 @@ namespace profisysApp.Controllers
         {
           var token = await _authService.Login(request.Username, request.Password);
           if (token == null)
-            return Unauthorized("Błędne dane logowania.");
-          return Ok(new { token });
+            return Unauthorized(new { message = "Błędne dane logowania." });
+          return Ok(new { token, message = "Zalogowano pomyślnie!" });
         }
         
     }

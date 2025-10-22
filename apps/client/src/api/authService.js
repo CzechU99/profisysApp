@@ -11,11 +11,6 @@ axios.interceptors.request.use(config => {
 })
 
 export const loginUser = async (username, password) => {
-  try {
-    const response = await axios.post(`${API_URL}/auth/login`, {username, password});
-    return response.data;
-  } catch (error) {
-    console.error('Błąd logowania:', error);
-    throw error;
-  } 
+  const response = await axios.post(`${API_URL}/auth/login`, {username, password});
+  return response;
 };

@@ -11,41 +11,21 @@ axios.interceptors.request.use(config => {
 })
 
 export const getAllDocuments = async () => {
-  try {
-    const response = await axios.get(`${API_URL}/documents`);
-    return response.data;
-  } catch (error) {
-    console.error('Błąd pobierania dokumentów:', error);
-    throw error;
-  } 
+  const response = await axios.get(`${API_URL}/documents`);
+  return response;
 };
 
 export const fetchAllDocuments = async () => {
-  try {
-    const response = await axios.post(`${API_URL}/dataImport/csvFiles`);
-    return response.data;
-  } catch (error) {
-    console.error('Błąd ładowania dokumentów:', error);
-    throw error;
-  } 
+  const response = await axios.post(`${API_URL}/dataImport/csvFiles`);
+  return response;
 };
 
 export const clearAllDocuments = async () => {
-  try {
-    const response = await axios.delete(`${API_URL}/documents`);
-    return response.data;
-  } catch (error) {
-    console.error('Błąd usuwania dokumentów:', error);
-    throw error;
-  } 
+  const response = await axios.delete(`${API_URL}/documents`);
+  return response;
 };
 
-export const deleteDocument = async (id) => {
-  try {
-    const response = await axios.delete(`${API_URL}/document/${id}`);
-    return response.data;
-  } catch (error) {
-    console.error('Błąd usuwania dokumentu:', error);
-    throw error;
-  } 
+export const deleteDocument = async (documentId) => {
+  const response = await axios.delete(`${API_URL}/documents/${documentId}`);
+  return response;
 };

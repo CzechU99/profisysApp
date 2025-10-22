@@ -41,15 +41,12 @@
 <script setup>
 import { useDocumentsStore } from '../stores/documentsStore'
 import { useAuthStore } from '../stores/authStore'
-import { useToast } from 'vue-toastification'
 
 const store = useDocumentsStore()
 const auth = useAuthStore()
-const toast = useToast()
 
 const logout = async () => {
   await auth.logout()
-  toast.success("Wylogowano pomyślnie.")
 }
 </script>
 

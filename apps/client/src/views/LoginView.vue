@@ -25,24 +25,15 @@
 <script>
 import { ref } from 'vue'
 import { useAuthStore } from '../stores/authStore'
-import { useToast } from 'vue-toastification'
-
 
 export default {
   setup() {
     const auth = useAuthStore()
     const username = ref('')
     const password = ref('')
-    const toast = useToast()
-
 
     const login = async () => {
-      try {
-        await auth.login(username.value, password.value)
-        toast.success('Zalogowano pomyślnie.')
-      } catch (error) {
-        toast.error('Brak użytkownika o takiej nazwie lub haśle.')
-      }
+      await auth.login(username.value, password.value)
     }
 
     return { username, password, login }

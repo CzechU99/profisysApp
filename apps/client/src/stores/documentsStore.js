@@ -9,14 +9,34 @@ export const useDocumentsStore = defineStore('documents', () => {
   const error = ref(null)
   const toast = useToast()
 
+  function clearDocuments() {
+    documents.value = []
+    loading.value = false
+    error.value = null
+  }
+
+  function handleApiError(error) {
+    if (error.response?.data?.message) {
+      toast.error(error.response.data.message);
+    } else if (error.response?.status === 403) {
+      toast.error("Nie masz uprawnień do tej operacji!"); 
+    } else if (error.response?.status === 401) {
+      toast.error("Musisz się zalogować!"); 
+    } else if (error.message) {
+      toast.error("Błąd połączenia z serwerem!"); 
+    } else {
+      toast.error("Nieznany błąd");
+    }
+  }
+
   async function loadAllDocuments() {
     try {
       loading.value = true
       const response = await getAllDocuments()
-      documents.value = response
-      toast.info('Dokumenty wczytane pomyślnie!')
-    } catch (responseError) {
-      toast.error('Nie udało się pobrać dokumentów z bazy danych.')
+      documents.value = response.data.documents
+      toast.info(response.data.message)
+    } catch (error) {
+      handleApiError(error)
     } finally {
       loading.value = false
     }
@@ -24,35 +44,42 @@ export const useDocumentsStore = defineStore('documents', () => {
 
   async function deleteAllDocuments() {
     try {
-      await clearAllDocuments()
-      documents.value = [] 
-      toast.info('Usunięto wszystkie dokumenty!')
-    } catch (responseError) {
-      toast.error('Brak dokumentów do usunięcia.')
+      const response = await clearAllDocuments()
+      this.clearDocuments()
+      toast.info(response.data.message)
+    } catch (error) {
+      handleApiError(error)
     }
   }
 
   async function loadDocsToDatabase() {
+    loading.value = true
+
     try {
-      loading.value = true
-      await fetchAllDocuments()
-      const response = await getAllDocuments()
-      documents.value = response
-      toast.info('Dokumenty wczytane pomyślnie!')
-    } catch (responseError) {
-      toast.error('Nie udało się wczytać dokumentów do bazy danych.')
-    } finally {
-      loading.value = false
+      const responseCsvFiles = await fetchAllDocuments()
+      toast.info(responseCsvFiles.data.message)
+    } catch (error) {
+      handleApiError(error)
     }
+
+    try {
+      const responseServer = await getAllDocuments()
+      documents.value = responseServer.data.documents
+      toast.info(responseServer.data.message)
+    } catch (error) {
+      handleApiError(error)
+    }
+
+    loading.value = false
   }
 
   async function deleteDocumentById(id) {
     try {
-      await deleteDocument(id)
+      const response = await deleteDocument(id)
       documents.value = documents.value.filter(doc => doc.id !== id)
-      toast.info('Dokument usunięto pomyślnie!')
-    } catch (responseError) {
-      toast.error('Nie udało się usunąć dokumentu.')
+      toast.info(response.data.message)
+    } catch (error) {
+      handleApiError(error)
     }
   }
 
@@ -63,6 +90,7 @@ export const useDocumentsStore = defineStore('documents', () => {
     loadAllDocuments,
     deleteAllDocuments,
     loadDocsToDatabase,
-    deleteDocumentById
+    deleteDocumentById,
+    clearDocuments
   }
 })
