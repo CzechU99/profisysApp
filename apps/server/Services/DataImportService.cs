@@ -1,21 +1,19 @@
 using profisysApp.Config;
-using profisysApp.Data;
 using profisysApp.Entities;
-using Microsoft.EntityFrameworkCore;
 using CsvHelper;
+using profisysApp.Repositories;
 using CsvHelper.Configuration;
 
 namespace profisysApp.Services
 {
   public class DataImportService
   {
-    private readonly DatabaseContext _context;
-    
+    private readonly DocumentsRepository _documentsRepository;
     private readonly AppSettings _settings;
 
-    public DataImportService(DatabaseContext context, AppSettings settings)
+    public DataImportService(DocumentsRepository documentsRepository, AppSettings settings)
     {
-      _context = context;
+      _documentsRepository = documentsRepository;
       _settings = settings;
     }
 
@@ -25,12 +23,10 @@ namespace profisysApp.Services
       var items = ReadCsv<DocumentItems>(itemsPath);
 
       var itemsByDocumentId = GroupItemsByDocumentId(items);
-      
       AssignItemsToDocuments(documents, itemsByDocumentId);
       
-      await AddNewDocuments(documents);
-      
-      await _context.SaveChangesAsync();
+      await _documentsRepository.AddNewDocuments(documents);
+      await _documentsRepository.SaveChangesDocuments();
     }
 
     private Dictionary<int, List<DocumentItems>> GroupItemsByDocumentId(List<DocumentItems> items)
@@ -56,22 +52,6 @@ namespace profisysApp.Services
             item.Document = doc;
           }
         }
-      }
-    }
-
-    private async Task AddNewDocuments(List<Documents> documents)
-    {
-      var existingDocumentIds = await _context.Documents
-        .Select(d => d.Id)
-        .ToListAsync();
-
-      var newDocuments = documents
-        .Where(doc => !existingDocumentIds.Contains(doc.Id))
-        .ToList();
-
-      if (newDocuments.Any())
-      {
-        await _context.Documents.AddRangeAsync(newDocuments);
       }
     }
 

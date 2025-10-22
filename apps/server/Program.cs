@@ -4,6 +4,7 @@ using profisysApp.Config;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using profisysApp.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,9 +16,16 @@ builder.Services.AddSingleton(appSettings);
 builder.Services.AddDbContext<DatabaseContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Repositories
+builder.Services.AddScoped<UserRepository>();
+builder.Services.AddScoped<DocumentsRepository>();
+
 // Services
 builder.Services.AddScoped<DataImportService>();
 builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<DocumentsService>();
+
+// Seeder
 builder.Services.AddHostedService<DatabaseSeeder>();
 
 // Controllers & JSON

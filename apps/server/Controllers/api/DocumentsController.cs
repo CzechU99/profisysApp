@@ -2,6 +2,7 @@ using profisysApp.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using profisysApp.Services;
 
 namespace profisysApp.Controllers
 {
@@ -9,11 +10,11 @@ namespace profisysApp.Controllers
     [Route("api/documents")]
     public class DocumentsController : ControllerBase
     {
-        private readonly DatabaseContext _context;
+        private readonly DocumentsService _documentsService;
 
-        public DocumentsController(DatabaseContext context)
+        public DocumentsController(DocumentsService documentsService)
         {
-            _context = context;
+            _documentsService = documentsService;
         }
 
         [HttpGet]
@@ -22,7 +23,7 @@ namespace profisysApp.Controllers
         {
             try
             {
-                var documents = await _context.Documents.Include(d => d.DocumentItem).AsQueryable().ToListAsync();
+                var documents = await _documentsService.GetAllDocuments();
                 return Ok(documents);
             }
             catch (Exception exception)
@@ -37,15 +38,14 @@ namespace profisysApp.Controllers
         {
             try
             {
-                var documents = await _context.Documents.Include(d => d.DocumentItem).ToListAsync();
+                var documents = await _documentsService.GetAllDocuments();
 
-                if (documents.Any())
+                if (documents == null || !documents.Any())
                 {
                     return Ok("Brak dokumentów do usunięcia.");
                 }
 
-                _context.Documents.RemoveRange(documents);
-                await _context.SaveChangesAsync();
+                await _documentsService.DeleteAllDocuments();
 
                 return Ok("Dokumenty zostały pomyślnie usunięte.");
             }
@@ -57,19 +57,19 @@ namespace profisysApp.Controllers
 
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> DeleteDocument(int id)
+        public async Task<IActionResult> DeleteDocument(int documentId)
         {
             try
             {
-                var document = await _context.Documents.Include(d => d.DocumentItem).FirstOrDefaultAsync(d => d.Id == id);
+                var document = await _documentsService.GetDocumentById(documentId);
 
                 if (document == null)
                 {
                     return NotFound("Nie znaleziono dokumentu do usunięcia.");
                 }
 
-                _context.Documents.Remove(document);
-                await _context.SaveChangesAsync();
+                await _documentsService.DeleteDocument(document);
+                
 
                 return Ok("Dokument został pomyślnie usunięty.");
             }
