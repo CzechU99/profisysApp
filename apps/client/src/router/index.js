@@ -9,7 +9,7 @@ function isLoggedIn() {
 const routes = [
   { path: '/', redirect: '/login' }, 
   { path: '/login', name: 'Login', component: LoginPage },
-  { path: '/documents', name: 'Documents', component: DocumentsPage },
+  { path: '/documents', name: 'Documents', component: DocumentsPage, meta: { requiresAuth: true } },
 ]
 
 const router = createRouter({
