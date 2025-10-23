@@ -29,3 +29,10 @@ export const deleteDocument = async (documentId) => {
   const response = await axios.delete(`${API_URL}/documents/${documentId}`);
   return response;
 };
+
+export const updateDocument = async (document) => {
+  const response = await axios.put(`${API_URL}/documents`, document, {
+    headers: { 'Content-Type': 'application/json' }
+  });
+  return response;
+};

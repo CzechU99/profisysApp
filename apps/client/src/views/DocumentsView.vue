@@ -4,7 +4,7 @@
 
   <div class="tableContainer">
     <ProgressSpinner v-if="store.loading || store.deleting" class="my-spinner" />
-    <DocumentsTable v-else :documents="store.documents" :deleting="store.deleting" />
+    <DocumentsTable v-else />
   </div>
   
 </template>

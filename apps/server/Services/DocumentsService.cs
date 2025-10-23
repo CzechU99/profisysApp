@@ -1,5 +1,6 @@
 using profisysApp.Entities;
 using profisysApp.Repositories;
+using System.Text.Json;
 
 namespace profisysApp.Services
 {
@@ -32,5 +33,17 @@ namespace profisysApp.Services
       await _documentsRepository.DeleteDocument(document);
     }
 
+    public async Task UpdateDocument(Documents updatedDocument, Documents documentToUpdate)
+    {
+      await _documentsRepository.UpdateDocument(updatedDocument, documentToUpdate);
+    }
+
+    public Documents? SerializeDocument(JsonElement updatedDocument)
+    {
+      return JsonSerializer.Deserialize<Documents>(
+        updatedDocument.GetRawText(),
+        new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
+      );
+    }
   }
 }

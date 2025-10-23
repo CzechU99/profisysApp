@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using profisysApp.Services;
+using System.Text.Json;
 
 namespace profisysApp.Controllers
 {
@@ -80,10 +81,38 @@ namespace profisysApp.Controllers
 
                 return Ok(new { message = "Dokument został pomyślnie usunięty!" });
             }
-            catch 
+            catch
             {
                 return StatusCode(500, new { message = "Błąd podczas usuwania dokumentu!" });
             }
+        }
+        
+        [HttpPut]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> UpdateDocument([FromBody] JsonElement updatedDocument)
+        {
+            try
+            {
+                var serializedDocument = _documentsService.SerializeDocument(updatedDocument);
+        
+                if (serializedDocument == null)
+                    return BadRequest(new { message = "Nie można zdekodować danych dokumentu." });
+
+                var documentToUpdate = await _documentsService.GetDocumentById(serializedDocument.Id);
+
+                if (documentToUpdate == null)
+                    return NotFound(new { message = "Nie znaleziono dokumentu." });
+
+                await _documentsService.UpdateDocument(serializedDocument, documentToUpdate);
+                await _auditService.LogAsync(User, "Aktualizacja dokumentu", $"DocumentId: {documentToUpdate.Id}");
+
+                return Ok(new { message = "Dokument zaktualizowany pomyślnie!" });
+            }
+            catch
+            {
+                return StatusCode(500, new { message = "Błąd podczas edytowania dokumentu!" });
+            }
+            
         }
 
     }

@@ -66,5 +66,16 @@ namespace profisysApp.Repositories
     {
       await _context.SaveChangesAsync();
     }
+
+    public async Task UpdateDocument(Documents updatedDocument, Documents documentToUpdate)
+    {
+      documentToUpdate.Type = updatedDocument.Type;
+      documentToUpdate.Date = updatedDocument.Date;
+      documentToUpdate.FirstName = updatedDocument.FirstName;
+      documentToUpdate.LastName = updatedDocument.LastName;
+      documentToUpdate.City = updatedDocument.City;
+
+      await _context.SaveChangesAsync();
+    }
   }
 }

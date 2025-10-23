@@ -1,7 +1,7 @@
 <template>
   <div>
     <ContextMenu ref="cm" :model="menuModel" />
-    
+
     <DataTable 
       v-model:filters="filters"
       v-model:expandedRows="expandedRows"
@@ -54,10 +54,48 @@
           </DataTable>
         </div>
       </template>
-
     </DataTable>
   </div>
+
+  <Dialog 
+    v-model:visible="editDialogVisible" 
+    header="Edytuj dokument"
+    :modal="true" 
+    class="edit-dialog-menu"
+    style="width: 1500px"
+  >
+    <div v-if="editedDocument">
+      <div class="p-fluid formgrid grid container">
+        <div class="field col-6">
+          <label for="type">Typ:</label><br>
+          <InputText id="type" v-model="editedDocument.type" />
+        </div>
+        <div class="field col-6">
+          <label for="date">Data</label><br>
+          <InputText id="date" v-model="editedDocument.date" />
+        </div>
+        <div class="field col-6">
+          <label for="firstName">Imię</label><br>
+          <InputText id="firstName" v-model="editedDocument.firstName" />
+        </div>
+        <div class="field col-6">
+          <label for="lastName">Nazwisko</label><br>
+          <InputText id="lastName" v-model="editedDocument.lastName" />
+        </div>
+        <div class="field col-6">
+          <label for="city">Miasto</label><br>
+          <InputText id="city" v-model="editedDocument.city" />
+        </div>
+      </div>
+
+    </div>
+
+    <template #footer>
+      <Button label="Zapisz" icon="pi pi-check" class="p-button-success" @click="saveEdit" />
+    </template>
+  </Dialog>
 </template>
+
 
 <script>
 import { ref, computed } from 'vue'
@@ -70,6 +108,8 @@ export default {
     const expandedRows = ref([])
     const selectedRow = ref(null)
     const cm = ref()
+    const editDialogVisible = ref(false)
+    const editedDocument = ref(null)
     
     const filters = ref({
       global: { value: null, matchMode: FilterMatchMode.CONTAINS }
@@ -80,11 +120,24 @@ export default {
         label: 'Usuń',
         icon: 'pi pi-trash',
         command: () => store.deleteDocumentById(selectedRow.value.id)
+      },
+      {
+        label: 'Edytuj',
+        icon: 'pi pi-pencil',
+        command: () => {
+          editedDocument.value = JSON.parse(JSON.stringify(selectedRow.value)) 
+          editDialogVisible.value = true
+        }
       }
     ])
 
     const onRowContextMenu = (event) => {
       cm.value.show(event.originalEvent)
+    }
+
+    const saveEdit = () => {
+      store.updateDocuments(editedDocument.value)
+      editDialogVisible.value = false
     }
 
     return { 
@@ -94,13 +147,21 @@ export default {
       selectedRow,
       cm,
       menuModel,
-      onRowContextMenu
+      onRowContextMenu,
+      saveEdit,
+      editDialogVisible,
+      editedDocument
     }
   }
 }
 </script>
 
 <style scoped>
+
+.field {
+  float: left;
+  margin-left: 40px;  
+}
 
 :deep(.p-datatable-header){
   padding: 0px !important;
