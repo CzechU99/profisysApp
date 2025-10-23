@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <router-view />  <!-- Tutaj router wstawia aktualną stronę -->
+    <router-view /> 
   </div>
 </template>
 
