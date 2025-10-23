@@ -79,6 +79,7 @@ Celem aplikacji **ProfisysApp** jest stworzenie systemu do zarządzania dokument
 | 📝 **Lista dokumentów** | Wyświetlanie wszystkich dokumentów w tabeli z wyszukiwaniem i możliwością sortowania. |
 | 📂 **Import CSV** | Import danych z plików CSV do bazy danych. |
 | 🗑 **Usuwanie dokumentów** | Usuwanie pojedynczych lub wszystkich dokumentów w bazie. |
+| ✏️ **Edytowanie dokumentów** | Edycja danych dokumentów i zapisywanie zmian. |
 | 📡 **Autoryzacja JWT** | Bezpieczny dostęp do endpointów API tylko dla zalogowanych użytkowników. |
 | 💬 **Powiadomienia** | Toasty informujące o powodzeniu lub błędach operacji. |
 | 🔄 **Routing** | Strony chronione i przekierowania na login w przypadku braku tokenu. |
@@ -96,6 +97,7 @@ Celem aplikacji **ProfisysApp** jest stworzenie systemu do zarządzania dokument
 | **GET** | `/api/documents` | Pobranie wszystkich dokumentów z bazy danych | ✅ |
 | **DELETE** | `/api/documents/{documentId}` | Usunięcie pojedynczego dokumentu po ID | ✅ |
 | **DELETE** | `/api/documents` | Usunięcie wszystkich dokumentów z bazy | ✅ |
+| **PUT** | `/api/documents` | Edycja dokumentu | ✅ |
 | **POST** | `/api/dataImport/csvFiles` | Import danych z plików CSV do bazy SQLite | ✅ |
 
 ✅ – wymaga tokenu JWT  
@@ -109,6 +111,7 @@ Celem aplikacji **ProfisysApp** jest stworzenie systemu do zarządzania dokument
 |-------|----------|
 | Strona logowania | <img src="./images/login.png" alt="Strona logowania" width="400"> |
 | Lista dokumentów | <img src="./images/documents.png" alt="Lista dokumentów" width="400"> |
+| Edycja dokumentu | <img src="./images/edit.png" alt="Edycja dokumentu" width="400"> |
 
 ---
 
