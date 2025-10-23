@@ -13,8 +13,8 @@ public class DatabaseSeeder : IHostedService
   {
     using (var scope = _serviceProvider.CreateScope())
     {
-      var userRepository = scope.ServiceProvider.GetRequiredService<UserRepository>();
-      var documentsRepository = scope.ServiceProvider.GetRequiredService<DocumentsRepository>();
+      var userRepository = scope.ServiceProvider.GetRequiredService<IUserRepository>();
+      var documentsRepository = scope.ServiceProvider.GetRequiredService<IDocumentsRepository>();
 
       await SeedDefaultUser(userRepository, "admin", "admin", "Admin");
       await SeedDefaultUser(userRepository, "user", "user", "User");
@@ -23,7 +23,7 @@ public class DatabaseSeeder : IHostedService
 
   public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
 
-  private async Task SeedDefaultUser(UserRepository _userRepository, string username, string password, string role)
+  private async Task SeedDefaultUser(IUserRepository _userRepository, string username, string password, string role)
   {
     if (await _userRepository.ExistsUserWithRole(username, role))
       return;

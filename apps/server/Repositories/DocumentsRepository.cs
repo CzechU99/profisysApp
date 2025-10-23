@@ -4,7 +4,7 @@ using profisysApp.Entities;
 
 namespace profisysApp.Repositories
 {
-  public class DocumentsRepository
+  public class DocumentsRepository : IDocumentsRepository
   {
     private readonly DatabaseContext _context;
 

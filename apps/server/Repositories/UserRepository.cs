@@ -6,7 +6,7 @@ using System.Text;
 
 namespace profisysApp.Repositories
 {
-  public class UserRepository
+  public class UserRepository : IUserRepository
   {
     private readonly DatabaseContext _context;
 

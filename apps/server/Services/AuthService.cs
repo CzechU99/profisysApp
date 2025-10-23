@@ -11,11 +11,11 @@ namespace profisysApp.Services
 {
   public class AuthService
   {
-    private readonly UserRepository _userRepository;
+    private readonly IUserRepository _userRepository;
     private readonly IConfiguration _config;
     private readonly AppSettings _settings;
 
-    public AuthService(UserRepository userRepository, IConfiguration config, AppSettings settings)
+    public AuthService(IUserRepository userRepository, IConfiguration config, AppSettings settings)
     {
       _userRepository = userRepository;
       _config = config;

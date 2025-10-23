@@ -17,8 +17,8 @@ builder.Services.AddDbContext<DatabaseContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Repositories
-builder.Services.AddScoped<UserRepository>();
-builder.Services.AddScoped<DocumentsRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IDocumentsRepository, DocumentsRepository>();
 
 // Services
 builder.Services.AddScoped<DataImportService>();

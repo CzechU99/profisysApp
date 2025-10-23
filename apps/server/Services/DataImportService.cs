@@ -8,10 +8,10 @@ namespace profisysApp.Services
 {
   public class DataImportService
   {
-    private readonly DocumentsRepository _documentsRepository;
+    private readonly IDocumentsRepository _documentsRepository;
     private readonly AppSettings _settings;
 
-    public DataImportService(DocumentsRepository documentsRepository, AppSettings settings)
+    public DataImportService(IDocumentsRepository documentsRepository, AppSettings settings)
     {
       _documentsRepository = documentsRepository;
       _settings = settings;

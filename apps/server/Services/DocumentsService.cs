@@ -6,9 +6,9 @@ namespace profisysApp.Services
 {
   public class DocumentsService
   {
-    private readonly DocumentsRepository _documentsRepository;
+    private readonly IDocumentsRepository _documentsRepository;
 
-    public DocumentsService(DocumentsRepository documentsRepository)
+    public DocumentsService(IDocumentsRepository documentsRepository)
     {
       _documentsRepository = documentsRepository;
     }
