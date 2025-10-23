@@ -22,22 +22,22 @@ namespace profisysApp.Services
       _settings = settings;
     }
 
-    public async Task<bool> Register(string username, string password, string role = "User")
+    public async Task<bool> RegisterAsync(string username, string password, string role = "User")
     {
-      if (await _userRepository.ExistsUser(username))
+      if (await _userRepository.ExistsUserAsync(username))
         return false;
 
       var user = _userRepository.CreateUser(username, password, role);
 
-      await _userRepository.AddUser(user);
-      await _userRepository.SaveChangesUser();
+      await _userRepository.AddUserAsync(user);
+      await _userRepository.SaveChangesUserAsync();
       
       return true;
     }
 
-    public async Task<string?> Login(string username, string password)
+    public async Task<string?> LoginAsync(string username, string password)
     {
-      var user = await _userRepository.GetByUsername(username);
+      var user = await _userRepository.GetByUsernameAsync(username);
       
       if (user == null || !VerifyPassword(password, user.PasswordHash, user.PasswordSalt))
         return null;

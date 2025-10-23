@@ -24,7 +24,7 @@ namespace profisysApp.Controllers
         {
             try
             {
-                var documents = await _documentsService.GetAllDocuments();
+                var documents = await _documentsService.GetAllDocumentsAsync();
                 if (documents == null || !documents.Any())
                 {
                     return Ok(new { message = "Administrator nie dodał żadnych dokumentów!"});
@@ -45,14 +45,14 @@ namespace profisysApp.Controllers
         {
             try
             {
-                var documents = await _documentsService.GetAllDocuments();
+                var documents = await _documentsService.GetAllDocumentsAsync();
 
                 if (documents == null || !documents.Any())
                 {
                     return Ok(new { message = "Brak dokumentów do usunięcia!" });
                 }
 
-                await _documentsService.DeleteAllDocuments();
+                await _documentsService.DeleteAllDocumentsAsync();
                 await _auditService.LogAsync(User, "Usunięcie wszystkich dokumentów z bazy");
 
                 return Ok(new { message = "Dokumenty zostały pomyślnie usunięte!" });
@@ -69,14 +69,14 @@ namespace profisysApp.Controllers
         {
             try
             {
-                var document = await _documentsService.GetDocumentById(documentId);
+                var document = await _documentsService.GetDocumentByIdAsync(documentId);
 
                 if (document == null)
                 {
                     return NotFound(new { message = "Nie znaleziono takiego dokumentu!" });
                 }
 
-                await _documentsService.DeleteDocument(document);
+                await _documentsService.DeleteDocumentAsync(document);
                 await _auditService.LogAsync(User, "Usunięcie dokumentu", $"DocumentId: {documentId}");
 
                 return Ok(new { message = "Dokument został pomyślnie usunięty!" });
@@ -98,12 +98,12 @@ namespace profisysApp.Controllers
                 if (serializedDocument == null)
                     return BadRequest(new { message = "Nie można zdekodować danych dokumentu." });
 
-                var documentToUpdate = await _documentsService.GetDocumentById(serializedDocument.Id);
+                var documentToUpdate = await _documentsService.GetDocumentByIdAsync(serializedDocument.Id);
 
                 if (documentToUpdate == null)
                     return NotFound(new { message = "Nie znaleziono dokumentu." });
 
-                await _documentsService.UpdateDocument(serializedDocument, documentToUpdate);
+                await _documentsService.UpdateDocumentAsync(serializedDocument, documentToUpdate);
                 await _auditService.LogAsync(User, "Aktualizacja dokumentu", $"DocumentId: {documentToUpdate.Id}");
 
                 return Ok(new { message = "Dokument zaktualizowany pomyślnie!" });

@@ -4,12 +4,12 @@ namespace profisysApp.Repositories
 {
     public interface IDocumentsRepository
     {
-        Task<List<Documents>> GetAllDocuments();
-        Task<Documents?> GetDocumentById(int documentId);
-        Task AddNewDocuments(List<Documents> documents);
-        Task DeleteDocument(Documents document);
-        Task DeleteAllDocuments();
-        Task UpdateDocument(Documents updatedDocument, Documents documentToUpdate);
-        Task SaveChangesDocuments();
+        Task<List<Documents>> GetAllDocumentsAsync();
+        Task<Documents?> GetDocumentByIdAsync(int documentId);
+        Task AddNewDocumentsAsync(List<Documents> documents);
+        Task DeleteDocumentAsync(Documents document);
+        Task DeleteAllDocumentsAsync();
+        Task UpdateDocumentAsync(Documents updatedDocument, Documents documentToUpdate);
+        Task SaveChangesDocumentsAsync();
     }
 }

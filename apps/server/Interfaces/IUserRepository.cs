@@ -4,11 +4,11 @@ namespace profisysApp.Repositories
 {
     public interface IUserRepository
     {
-        Task<User?> GetByUsername(string username);
-        Task<bool> ExistsUser(string username);
-        Task<bool> ExistsUserWithRole(string username, string role);
-        Task AddUser(User user);
-        Task SaveChangesUser();
+        Task<User?> GetByUsernameAsync(string username);
+        Task<bool> ExistsUserAsync(string username);
+        Task<bool> ExistsUserWithRoleAsync(string username, string role);
+        Task AddUserAsync(User user);
+        Task SaveChangesUserAsync();
         User CreateUser(string username, string password, string role);
     }
 }

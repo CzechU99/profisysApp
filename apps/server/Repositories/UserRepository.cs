@@ -15,30 +15,30 @@ namespace profisysApp.Repositories
       _context = context;
     }
 
-    public async Task<User?> GetByUsername(string username)
+    public async Task<User?> GetByUsernameAsync(string username)
     {
       return await _context.Users
         .FirstOrDefaultAsync(u => u.Username == username);
     }
 
-    public async Task<bool> ExistsUser(string username)
+    public async Task<bool> ExistsUserAsync(string username)
     {
       return await _context.Users
         .AnyAsync(u => u.Username == username);
     }
 
-    public async Task<bool> ExistsUserWithRole(string username, string role)
+    public async Task<bool> ExistsUserWithRoleAsync(string username, string role)
     {
       return await _context.Users
         .AnyAsync(u => u.Username == username && u.Role == role);
     }
 
-    public async Task AddUser(User user)
+    public async Task AddUserAsync(User user)
     {
       await _context.Users.AddAsync(user);
     }
 
-    public async Task SaveChangesUser()
+    public async Task SaveChangesUserAsync()
     {
       await _context.SaveChangesAsync();
     }

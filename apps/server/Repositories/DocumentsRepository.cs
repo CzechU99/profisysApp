@@ -13,17 +13,17 @@ namespace profisysApp.Repositories
       _context = context;
     }
 
-    public async Task<List<Documents>> GetAllDocuments()
+    public async Task<List<Documents>> GetAllDocumentsAsync()
     {
       return await _context.Documents.Include(d => d.DocumentItem).ToListAsync();
     }
 
-    public async Task<Documents?> GetDocumentById(int documentId)
+    public async Task<Documents?> GetDocumentByIdAsync(int documentId)
     {
       return await _context.Documents.Include(d => d.DocumentItem).FirstOrDefaultAsync(d => d.Id == documentId);
     }
 
-    public async Task DeleteAllDocuments()
+    public async Task DeleteAllDocumentsAsync()
     {
       var allDocuments = await _context.Documents.ToListAsync();
 
@@ -31,21 +31,21 @@ namespace profisysApp.Repositories
       await _context.SaveChangesAsync();
     }
 
-    public async Task AddNewDocuments(List<Documents> documents)
+    public async Task AddNewDocumentsAsync(List<Documents> documents)
     {
       var existingDocumentIds = await GetExistingDocumentIdsAsync();
       var newDocuments = GetNewDocuments(documents, existingDocumentIds);
 
-      await AddDocuments(newDocuments);
+      await AddDocumentsAsync(newDocuments);
     }
 
-    public async Task DeleteDocument(Documents document)
+    public async Task DeleteDocumentAsync(Documents document)
     {
       _context.Documents.Remove(document);
       await _context.SaveChangesAsync();
     }
 
-    private async Task AddDocuments(List<Documents> newDocuments)
+    private async Task AddDocumentsAsync(List<Documents> newDocuments)
     {
       if (newDocuments.Any()) {
         await _context.Documents.AddRangeAsync(newDocuments);
@@ -62,12 +62,12 @@ namespace profisysApp.Repositories
       return await _context.Documents.Select(d => d.Id).ToListAsync();
     }
 
-    public async Task SaveChangesDocuments()
+    public async Task SaveChangesDocumentsAsync()
     {
       await _context.SaveChangesAsync();
     }
 
-    public async Task UpdateDocument(Documents updatedDocument, Documents documentToUpdate)
+    public async Task UpdateDocumentAsync(Documents updatedDocument, Documents documentToUpdate)
     {
       documentToUpdate.Type = updatedDocument.Type;
       documentToUpdate.Date = updatedDocument.Date;

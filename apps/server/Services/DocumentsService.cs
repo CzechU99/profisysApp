@@ -13,29 +13,29 @@ namespace profisysApp.Services
       _documentsRepository = documentsRepository;
     }
 
-    public async Task<List<Documents>> GetAllDocuments()
+    public async Task<List<Documents>> GetAllDocumentsAsync()
     {
-      return await _documentsRepository.GetAllDocuments();
+      return await _documentsRepository.GetAllDocumentsAsync();
     }
 
-    public async Task DeleteAllDocuments()
+    public async Task DeleteAllDocumentsAsync()
     {
-      await _documentsRepository.DeleteAllDocuments();
+      await _documentsRepository.DeleteAllDocumentsAsync();
     }
 
-    public async Task<Documents?> GetDocumentById(int documentId)
+    public async Task<Documents?> GetDocumentByIdAsync(int documentId)
     {
-      return await _documentsRepository.GetDocumentById(documentId);
+      return await _documentsRepository.GetDocumentByIdAsync(documentId);
     }
 
-    public async Task DeleteDocument(Documents document)
+    public async Task DeleteDocumentAsync(Documents document)
     {
-      await _documentsRepository.DeleteDocument(document);
+      await _documentsRepository.DeleteDocumentAsync(document);
     }
 
-    public async Task UpdateDocument(Documents updatedDocument, Documents documentToUpdate)
+    public async Task UpdateDocumentAsync(Documents updatedDocument, Documents documentToUpdate)
     {
-      await _documentsRepository.UpdateDocument(updatedDocument, documentToUpdate);
+      await _documentsRepository.UpdateDocumentAsync(updatedDocument, documentToUpdate);
     }
 
     public Documents? SerializeDocument(JsonElement updatedDocument)

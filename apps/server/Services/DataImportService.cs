@@ -17,7 +17,7 @@ namespace profisysApp.Services
       _settings = settings;
     }
 
-    public async Task Import(string documentsPath, string itemsPath)
+    public async Task ImportAsync(string documentsPath, string itemsPath)
     {
       var documents = ReadCsv<Documents>(documentsPath);
       var items = ReadCsv<DocumentItems>(itemsPath);
@@ -25,8 +25,8 @@ namespace profisysApp.Services
       var itemsByDocumentId = GroupItemsByDocumentId(items);
       AssignItemsToDocuments(documents, itemsByDocumentId);
       
-      await _documentsRepository.AddNewDocuments(documents);
-      await _documentsRepository.SaveChangesDocuments();
+      await _documentsRepository.AddNewDocumentsAsync(documents);
+      await _documentsRepository.SaveChangesDocumentsAsync();
     }
 
     private Dictionary<int, List<DocumentItems>> GroupItemsByDocumentId(List<DocumentItems> items)
