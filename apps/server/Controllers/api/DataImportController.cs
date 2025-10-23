@@ -30,7 +30,7 @@ namespace profisysApp.Controllers
         {
             try
             {
-                await _importService.Import(_appSettings.PATH_TO_DOCUMENTS_CSV, _appSettings.PATH_TO_DOCUMENT_ITEMS_CSV);
+                await _importService.ImportAsync(_appSettings.PATH_TO_DOCUMENTS_CSV, _appSettings.PATH_TO_DOCUMENT_ITEMS_CSV);
                 await _auditService.LogAsync(User, "ImportCSV");
                 return Ok(new { message = "Dane zostały zaimportowane do bazy danych!" });
             }
