@@ -5,6 +5,9 @@
       dataKey="id" 
       removableSort 
       class="subTable"
+      contextMenu
+      v-model:contextMenuSelection="selectedItem"
+      @row-contextmenu="onRowContextMenu"
     >
       <Column field="product" sortable header="PRODUKT" />
       <Column field="quantity" sortable header="ILOŚĆ" />
@@ -15,12 +18,21 @@
 </template>
 
 <script setup>
-defineProps({
+import { ref } from 'vue'
+
+const selectedItem = ref(null)
+const emit = defineEmits(['item-context-menu'])
+
+const props = defineProps({
   items: {
     type: Array,
     default: () => []
   }
 })
+
+const onRowContextMenu = (event) => {
+  emit('item-context-menu', event)
+}
 </script>
 
 <style scoped>

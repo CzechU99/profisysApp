@@ -1,15 +1,16 @@
 <template>
   <div>
-    <DocumentContextMenu 
+    <DocumentContextMenu
       ref="contextMenu"
-      @edit="openEditDialog"
       @delete="handleDelete"
+      @edit="openEditDialog"
+      @delete-item="deleteDocumentItem"
     />
 
     <DataTable 
       v-model:filters="filters"
       v-model:expandedRows="expandedRows"
-      v-model:contextMenuSelection="selectedRow"
+      v-model:contextMenuSelection="selectedDocument"
       :value="store.documents" 
       dataKey="id" 
       :paginator="true" 
@@ -34,9 +35,13 @@
       <Column field="lastName" sortable header="NAZWISKO" />
       <Column field="city" sortable header="MIASTO" />
 
-      <template #expansion="slotProps">
-        <DocumentItemsTable :items="slotProps.data.documentItem" />
+     <template #expansion="slotProps">
+        <DocumentItemsTable 
+          :items="slotProps.data.documentItem"
+          @item-context-menu="onItemContextMenu"
+        />
       </template>
+
     </DataTable>
 
     <DocumentEditDialog 
@@ -58,7 +63,7 @@ import DocumentEditDialog from './DocumentEditDialog.vue'
 
 const store = useDocumentsStore()
 const expandedRows = ref([])
-const selectedRow = ref(null)
+const selectedDocument = ref(null)
 const contextMenu = ref()
 const editDialogVisible = ref(false)
 const editedDocument = ref(null)
@@ -68,7 +73,11 @@ const filters = ref({
 })
 
 const onRowContextMenu = (event) => {
-  contextMenu.value.show(event.originalEvent, selectedRow.value)
+  contextMenu.value.show(event.originalEvent, event.data, 'document')
+}
+
+const onItemContextMenu = (event) => {
+  contextMenu.value.show(event.originalEvent, event.data, 'item')
 }
 
 const openEditDialog = (document) => {
@@ -78,6 +87,10 @@ const openEditDialog = (document) => {
 
 const handleDelete = (id) => {
   store.deleteDocumentById(id)
+}
+
+const deleteDocumentItem = (id) => {
+  store.deleteDocumentItemById(id)
 }
 
 const handleSave = () => {

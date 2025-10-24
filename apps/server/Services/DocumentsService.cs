@@ -45,5 +45,25 @@ namespace profisysApp.Services
         new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
       );
     }
+
+    public async Task HandleDocumentAsync(Documents document)
+    {
+      var existingDoc = await _documentsRepository.GetDocumentByIdAsync(document.Id);
+      if (existingDoc != null)
+      {
+        var missingItems = await _documentsRepository.GetMissingItemsAsync(document, existingDoc);
+        if (missingItems.Any())
+        {
+          await _documentsRepository.DeleteDocumentAsync(existingDoc);
+        }
+      }
+
+      await _documentsRepository.AddDocumentAsync(document);
+    }
+    
+    public async Task SaveChangesDocumentsAsync()
+    {
+      await _documentsRepository.SaveChangesDocumentsAsync();
+    }
   }
 }

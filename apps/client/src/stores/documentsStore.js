@@ -1,7 +1,9 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { useToast } from 'vue-toastification'
-import { getAllDocuments, clearAllDocuments, fetchAllDocuments, deleteDocument, updateDocument } from '../api/documentsService'
+import { getAllDocuments, clearAllDocuments, fetchAllDocuments, 
+  deleteDocument, updateDocument } from '../api/documentsService'
+import { deleteDocumentItem } from '../api/itemsService'
 
 export const useDocumentsStore = defineStore('documents', () => {
   const documents = ref([])
@@ -98,6 +100,24 @@ export const useDocumentsStore = defineStore('documents', () => {
     }
   }
 
+  async function deleteDocumentItemById(itemId) {
+    try {
+      const response = await deleteDocumentItem(itemId)
+
+      const document = documents.value.find(d =>
+        d.documentItem.some(i => i.id === itemId)
+      )
+
+      if (document) {
+        document.documentItem = document.documentItem.filter(i => i.id !== itemId)
+      }
+
+      toast.success(response.data.message)
+    } catch (error) {
+      handleApiError(error)
+    }
+  }
+
   return {
     documents,
     loading,
@@ -108,6 +128,7 @@ export const useDocumentsStore = defineStore('documents', () => {
     loadDocsToDatabase,
     deleteDocumentById,
     clearDocuments,
-    updateDocuments
+    updateDocuments,
+    deleteDocumentItemById
   }
 })

@@ -19,7 +19,7 @@ namespace profisysApp.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "User,Admin")]
+        // [Authorize(Roles = "User,Admin")]
         public async Task<IActionResult> GetAllDocuments()
         {
             try
@@ -40,7 +40,7 @@ namespace profisysApp.Controllers
         }
 
         [HttpDelete]
-        [Authorize(Roles = "Admin")]
+        // [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteAllDocuments()
         {
             try
@@ -64,7 +64,7 @@ namespace profisysApp.Controllers
         }
 
         [HttpDelete("{documentId}")]
-        [Authorize(Roles = "Admin")]
+        // [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteDocument(int documentId)
         {
             try
@@ -86,15 +86,15 @@ namespace profisysApp.Controllers
                 return StatusCode(500, new { message = "Błąd podczas usuwania dokumentu!" });
             }
         }
-        
+
         [HttpPut]
-        [Authorize(Roles = "Admin")]
+        // [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateDocument([FromBody] JsonElement updatedDocument)
         {
             try
             {
                 var serializedDocument = _documentsService.SerializeDocument(updatedDocument);
-        
+
                 if (serializedDocument == null)
                     return BadRequest(new { message = "Nie można zdekodować danych dokumentu." });
 
@@ -112,7 +112,7 @@ namespace profisysApp.Controllers
             {
                 return StatusCode(500, new { message = "Błąd podczas edytowania dokumentu!" });
             }
-            
+
         }
 
     }

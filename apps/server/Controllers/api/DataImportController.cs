@@ -25,7 +25,7 @@ namespace profisysApp.Controllers
         }
 
         [HttpPost("csvFiles")]
-        [Authorize(Roles = "Admin")]
+        // [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ImportCsv()
         {
             try

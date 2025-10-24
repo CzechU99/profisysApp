@@ -1,0 +1,33 @@
+using Microsoft.EntityFrameworkCore;
+using profisysApp.Data;
+using profisysApp.Entities;
+
+namespace profisysApp.Repositories
+{
+  public class ItemsRepository : IItemsRepository
+  {
+    private readonly DatabaseContext _context;
+
+    public ItemsRepository(DatabaseContext context)
+    {
+      _context = context;
+    }
+
+    public async Task<DocumentItems?> GetItemByIdAsync(int itemId)
+    {
+      return await _context.DocumentItems.FirstOrDefaultAsync(d => d.Id == itemId);
+    }
+
+    public async Task DeleteItemAsync(DocumentItems document)
+    {
+      _context.DocumentItems.Remove(document);
+      await SaveChangesItemsAsync();
+    }
+
+    public async Task SaveChangesItemsAsync()
+    {
+      await _context.SaveChangesAsync();
+    }
+
+  }
+}

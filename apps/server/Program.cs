@@ -19,11 +19,13 @@ builder.Services.AddDbContext<DatabaseContext>(options =>
 // Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IDocumentsRepository, DocumentsRepository>();
+builder.Services.AddScoped<IItemsRepository, ItemsRepository>();
 
 // Services
 builder.Services.AddScoped<DataImportService>();
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<DocumentsService>();
+builder.Services.AddScoped<ItemsService>();
 builder.Services.AddSingleton<AuditService>();
 
 // Seeder

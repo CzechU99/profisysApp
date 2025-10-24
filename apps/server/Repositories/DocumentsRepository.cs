@@ -15,6 +15,7 @@ namespace profisysApp.Repositories
 
     public async Task<List<Documents>> GetAllDocumentsAsync()
     {
+      _context.ChangeTracker.Clear();
       return await _context.Documents.Include(d => d.DocumentItem).ToListAsync();
     }
 
@@ -31,35 +32,24 @@ namespace profisysApp.Repositories
       await _context.SaveChangesAsync();
     }
 
-    public async Task AddNewDocumentsAsync(List<Documents> documents)
+    public async Task<List<DocumentItems>> GetMissingItemsAsync(Documents incomingDoc, Documents existingDoc)
     {
-      var existingDocumentIds = await GetExistingDocumentIdsAsync();
-      var newDocuments = GetNewDocuments(documents, existingDocumentIds);
+      return await Task.Run(() =>
+        incomingDoc.DocumentItem
+          .Where(i => !existingDoc.DocumentItem.Any(ei => ei.Id == i.Id))
+          .ToList()
+      );
+    }
 
-      await AddDocumentsAsync(newDocuments);
+    public async Task AddDocumentAsync(Documents document)
+    {
+      await _context.Documents.AddAsync(document);
     }
 
     public async Task DeleteDocumentAsync(Documents document)
     {
       _context.Documents.Remove(document);
       await _context.SaveChangesAsync();
-    }
-
-    private async Task AddDocumentsAsync(List<Documents> newDocuments)
-    {
-      if (newDocuments.Any()) {
-        await _context.Documents.AddRangeAsync(newDocuments);
-      }
-    }
-
-    private List<Documents> GetNewDocuments(List<Documents> documents, List<int> existingDocumentIds)
-    {
-      return documents.Where(doc => !existingDocumentIds.Contains(doc.Id)).ToList();
-    }
-
-    private async Task<List<int>> GetExistingDocumentIdsAsync()
-    {
-      return await _context.Documents.Select(d => d.Id).ToListAsync();
     }
 
     public async Task SaveChangesDocumentsAsync()

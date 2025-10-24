@@ -8,44 +8,38 @@ namespace profisysApp.Services
 {
   public class DataImportService
   {
-    private readonly IDocumentsRepository _documentsRepository;
+    private readonly DocumentsService _documentsService;
     private readonly AppSettings _settings;
 
-    public DataImportService(IDocumentsRepository documentsRepository, AppSettings settings)
+    public DataImportService(DocumentsService documentsService, AppSettings settings)
     {
-      _documentsRepository = documentsRepository;
+      _documentsService = documentsService;
       _settings = settings;
     }
 
     public async Task ImportAsync(string documentsPath, string itemsPath)
     {
-      var documents = ReadCsv<Documents>(documentsPath);
-      var items = ReadCsv<DocumentItems>(itemsPath);
+        var documents = ReadCsv<Documents>(documentsPath);
+        var items = ReadCsv<DocumentItems>(itemsPath);
 
-      var itemsByDocumentId = GroupItemsByDocumentId(items);
-      AssignItemsToDocuments(documents, itemsByDocumentId);
-      
-      await _documentsRepository.AddNewDocumentsAsync(documents);
-      await _documentsRepository.SaveChangesDocumentsAsync();
+        var itemsByDocId = GroupItemsByDocumentId(items);
+        AssignItemsToDocuments(documents, itemsByDocId);
+
+        foreach (var document in documents)
+        {
+            await _documentsService.HandleDocumentAsync(document);
+        }
+
+        await _documentsService.SaveChangesDocumentsAsync();
     }
 
-    private Dictionary<int, List<DocumentItems>> GroupItemsByDocumentId(List<DocumentItems> items)
-    {
-      return items
-        .GroupBy(i => i.DocumentId)
-        .ToDictionary(g => g.Key, g => g.ToList());
-    }
-
-    private void AssignItemsToDocuments(
-      List<Documents> documents, 
-      Dictionary<int, List<DocumentItems>> itemsByDocumentId)
+    public void AssignItemsToDocuments(List<Documents> documents, Dictionary<int, List<DocumentItems>> itemsByDocumentId)
     {
       foreach (var doc in documents)
       {
         if (itemsByDocumentId.TryGetValue(doc.Id, out var docItems))
         {
           doc.DocumentItem = docItems;
-
           foreach (var item in docItems)
           {
             item.DocumentId = doc.Id;
@@ -53,6 +47,13 @@ namespace profisysApp.Services
           }
         }
       }
+    }
+
+    private Dictionary<int, List<DocumentItems>> GroupItemsByDocumentId(List<DocumentItems> items)
+    {
+      return items
+        .GroupBy(i => i.DocumentId)
+        .ToDictionary(g => g.Key, g => g.ToList());
     }
 
     private List<T> ReadCsv<T>(string path)
