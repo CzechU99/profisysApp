@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using profisysApp.Entities;
 
 namespace profisysApp.Models
 {
@@ -33,6 +32,7 @@ namespace profisysApp.Models
     public string Type { get; set; } = null!;
 
     [Required(ErrorMessage = "Data jest wymagana.")]
+    [NotFutureDate]
     public DateOnly Date { get; set; }
 
     [Required(ErrorMessage = "Imię jest wymagane.")]
