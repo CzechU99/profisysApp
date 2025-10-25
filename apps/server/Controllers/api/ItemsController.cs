@@ -10,12 +10,14 @@ namespace profisysApp.Controllers
   public class ItemsController : ControllerBase
   {
     private readonly ItemsService _itemsService;
+    private readonly DocumentsService _documentsService;
     private readonly AuditService _auditService;
 
-    public ItemsController(ItemsService itemsService, AuditService auditService)
+    public ItemsController(DocumentsService documentsService, ItemsService itemsService, AuditService auditService)
     {
       _itemsService = itemsService;
       _auditService = auditService;
+      _documentsService = documentsService;
     }
 
     [HttpDelete("{itemId}")]
@@ -44,7 +46,7 @@ namespace profisysApp.Controllers
 
     [HttpPut]
     [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> UpdateDocument([FromBody] ItemUpdateDto updatedItem)
+    public async Task<IActionResult> UpdateItem([FromBody] ItemDto updatedItem)
     {
       try
       {
@@ -61,6 +63,33 @@ namespace profisysApp.Controllers
       catch
       {
         return StatusCode(500, new { message = "Błąd podczas edytowania itemu!" });
+      }
+    }
+
+    [HttpPost]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> AddItem([FromBody] ItemDto newItem)
+    {
+      try
+      {
+        var document = await _documentsService.GetDocumentByIdAsync(newItem.DocumentId);
+
+        if (document == null)
+          return NotFound(new { message = "Nie znaleziono dokumentu." });
+
+        var lastOrdinal = document.DocumentItem.Any()
+          ? document.DocumentItem.Max(i => i.Ordinal)
+          : 0;
+
+        newItem.Ordinal = lastOrdinal + 1;
+        await _itemsService.AddItemAsync(newItem);
+        await _auditService.LogAsync(User, "Dodanie itemu", $"ItemId: {newItem.Id}");
+
+        return Ok(new { message = "Dodano nowy item do dokumentu!" });
+      }
+      catch
+      {
+        return StatusCode(500, new { message = "Błąd podczas dodawania itemu!" });
       }
     }
 

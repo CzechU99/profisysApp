@@ -51,7 +51,7 @@ namespace profisysApp.Models
     public string City { get; set; } = null!;
   }
 
-  public class ItemUpdateDto
+  public class ItemDto
   {
     public int Id { get; set; }
 

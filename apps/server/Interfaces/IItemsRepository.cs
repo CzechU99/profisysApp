@@ -8,6 +8,7 @@ namespace profisysApp.Repositories
         Task<DocumentItems?> GetItemByIdAsync(int documentId);
         Task DeleteItemAsync(DocumentItems itemId);
         Task SaveChangesItemsAsync();
-        Task UpdateItemAsync(ItemUpdateDto updatedItem, DocumentItems itemToUpdate);
+        Task UpdateItemAsync(ItemDto updatedItem, DocumentItems itemToUpdate);
+        Task AddItemAsync(ItemDto newItem);
     }
 }

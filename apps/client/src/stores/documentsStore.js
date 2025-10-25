@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import { useToast } from 'vue-toastification'
 import { getAllDocuments, clearAllDocuments, fetchAllDocuments, 
   deleteDocument, updateDocument } from '../api/documentsService'
-import { deleteDocumentItem, updateItem } from '../api/itemsService'
+import { deleteDocumentItem, updateItem, addItem } from '../api/itemsService'
 import { handleApiError } from '../utils/errorHandler'
 
 export const useDocumentsStore = defineStore('documents', () => {
@@ -23,7 +23,7 @@ export const useDocumentsStore = defineStore('documents', () => {
     try {
       loading.value = true
       const response = await getAllDocuments()
-      documents.value = response.data.documents
+      documents.value = response.data.documents.sort((a, b) => new Date(b.date) - new Date(a.date))
       toast.info(response.data.message)
     } catch (error) {
       handleApiError(error)
@@ -126,6 +126,24 @@ export const useDocumentsStore = defineStore('documents', () => {
     }
   }
 
+  async function addItems(item){
+    try {
+      const response = await addItem(item)
+      
+      const document = documents.value.find(d => d.id === item.documentId);
+      if (document) {
+        if (!document.documentItem) {
+          document.documentItem = [];
+        }
+        document.documentItem.push(item);
+      }
+      
+      toast.success(response.data.message)
+    } catch (error) {
+      handleApiError(error)
+    }
+  }
+
   return {
     documents,
     loading,
@@ -138,6 +156,7 @@ export const useDocumentsStore = defineStore('documents', () => {
     clearDocuments,
     updateDocuments,
     deleteDocumentItemById,
-    updateItems
+    updateItems,
+    addItems
   }
 })

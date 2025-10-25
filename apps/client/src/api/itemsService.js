@@ -21,3 +21,10 @@ export const updateItem = async (item) => {
   });
   return response;
 };
+
+export const addItem = async (item) => {
+  const response = await axios.post(`${API_URL}/items`, item, {
+    headers: { 'Content-Type': 'application/json' }
+  });
+  return response;
+};

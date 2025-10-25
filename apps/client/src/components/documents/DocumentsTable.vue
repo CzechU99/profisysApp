@@ -4,6 +4,7 @@
       ref="contextMenu"
       @delete="handleDelete"
       @edit="openEditDialog"
+      @add="openAddDialogItem"
       @delete-item="deleteDocumentItem"
       @edit-item="openEditDialogItem"
     />
@@ -56,6 +57,12 @@
       v-model:item="editedItem"
       @save="handleItemSave"
     />
+
+    <ItemAddDialog 
+      v-model:visible="addItemDialogVisible"
+      v-model:item="addItem"
+      @save="handleAddItemSave"
+    />
   </div>
 </template>
 
@@ -68,6 +75,7 @@ import DocumentsTableHeader from './DocumentsTableHeader.vue'
 import DocumentItemsTable from './DocumentItemsTable.vue'
 import DocumentEditDialog from '../contextmenu/DocumentEditDialog.vue'
 import ItemEditDialog from '../contextmenu/ItemEditDialog.vue'
+import ItemAddDialog from '../contextmenu/ItemAddDialog.vue'
 
 const store = useDocumentsStore()
 const expandedRows = ref([])
@@ -75,8 +83,10 @@ const selectedDocument = ref(null)
 const contextMenu = ref()
 const editDialogVisible = ref(false)
 const editItemDialogVisible = ref(false)
+const addItemDialogVisible = ref(false)
 const editedDocument = ref(null)
 const editedItem = ref(null)
+const addItem = ref(null)
 
 const filters = ref({
   global: { value: null, matchMode: FilterMatchMode.CONTAINS }
@@ -100,6 +110,13 @@ const openEditDialogItem = (item) => {
   editItemDialogVisible.value = true
 }
 
+const openAddDialogItem = (document) => {
+  addItem.value = {
+    documentId: document.id   
+  };
+  addItemDialogVisible.value = true;
+}
+
 const handleDelete = (id) => {
   store.deleteDocumentById(id)
 }
@@ -116,6 +133,12 @@ const handleSave = () => {
 const handleItemSave = () => {
   store.updateItems(editedItem.value)
   editItemDialogVisible.value = false
+}
+
+const handleAddItemSave = () => {
+  console.log(addItem.value)
+  store.addItems(addItem.value)
+  addItemDialogVisible.value = false
 }
 </script>
 

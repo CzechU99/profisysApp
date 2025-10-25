@@ -23,9 +23,14 @@ namespace profisysApp.Services
       await _itemsRepository.DeleteItemAsync(documentItem);
     }
 
-    public async Task UpdateItemAsync(ItemUpdateDto updatedItem, DocumentItems documentToItem)
+    public async Task UpdateItemAsync(ItemDto updatedItem, DocumentItems documentToItem)
     {
       await _itemsRepository.UpdateItemAsync(updatedItem, documentToItem);
+    }
+
+    public async Task AddItemAsync(ItemDto newItem)
+    {
+      await _itemsRepository.AddItemAsync(newItem);
     }
   }
 }

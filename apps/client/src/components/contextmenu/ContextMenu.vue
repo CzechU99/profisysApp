@@ -5,7 +5,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 
-const emit = defineEmits(['edit', 'delete', 'delete-item', 'edit-item'])
+const emit = defineEmits(['edit', 'delete', 'add', 'delete-item', 'edit-item'])
 const cm = ref()
 const selectedData = ref(null)
 const selectedType = ref('document') 
@@ -22,6 +22,11 @@ const menuModel = computed(() => {
         label: 'Edytuj',
         icon: 'pi pi-pencil',
         command: () => emit('edit', selectedData.value)
+      },
+      {
+        label: 'Dodaj item',
+        icon: 'pi pi-plus',
+        command: () => emit('add', selectedData.value)
       }
     ]
   } else {
