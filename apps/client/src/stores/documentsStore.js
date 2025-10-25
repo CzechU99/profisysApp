@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import { useToast } from 'vue-toastification'
 import { getAllDocuments, clearAllDocuments, fetchAllDocuments, 
   deleteDocument, updateDocument } from '../api/documentsService'
-import { deleteDocumentItem } from '../api/itemsService'
+import { deleteDocumentItem, updateItem } from '../api/itemsService'
 
 export const useDocumentsStore = defineStore('documents', () => {
   const documents = ref([])
@@ -100,6 +100,28 @@ export const useDocumentsStore = defineStore('documents', () => {
     }
   }
 
+  async function updateItems(item) {
+    try {
+      const response = await updateItem(item);
+      
+      const document = documents.value.find(d => 
+        d.documentItem?.some(i => i.id === item.id)
+      );
+      
+      if (document) {
+        const itemIndex = document.documentItem.findIndex(i => i.id === item.id);
+        if (itemIndex !== -1) {
+          document.documentItem[itemIndex] = { ...item };
+        }
+      }
+      
+      toast.success(response.data.message);
+    } catch (error) {
+      console.error('Błąd updateItems:', error);
+      handleApiError(error);
+    }
+  }
+
   async function deleteDocumentItemById(itemId) {
     try {
       const response = await deleteDocumentItem(itemId)
@@ -129,6 +151,7 @@ export const useDocumentsStore = defineStore('documents', () => {
     deleteDocumentById,
     clearDocuments,
     updateDocuments,
-    deleteDocumentItemById
+    deleteDocumentItemById,
+    updateItems
   }
 })

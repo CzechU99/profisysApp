@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using profisysApp.Services;
+using System.Text.Json;
 
 namespace profisysApp.Controllers
 {
@@ -18,7 +19,7 @@ namespace profisysApp.Controllers
     }
 
     [HttpDelete("{itemId}")]
-    // [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> DeleteDocumentItem(int itemId)
     {
       try
@@ -38,6 +39,33 @@ namespace profisysApp.Controllers
       catch
       {
         return StatusCode(500, new { message = "Błąd podczas usuwania itemu dokumentu!" });
+      }
+    }
+
+    [HttpPut]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> UpdateDocument([FromBody] JsonElement updatedItem)
+    {
+      try
+      {
+        var serializedItem = _itemsService.SerializeItem(updatedItem);
+
+        if (serializedItem == null)
+          return BadRequest(new { message = "Nie można zdekodować danych itemu." });
+
+        var itemToUpdate = await _itemsService.GetItemByIdAsync(serializedItem.Id);
+
+        if (itemToUpdate == null)
+            return NotFound(new { message = "Nie znaleziono itemu." });
+
+        await _itemsService.UpdateItemAsync(serializedItem, itemToUpdate);
+        await _auditService.LogAsync(User, "Aktualizacja itemu", $"ItemId: {itemToUpdate.Id}");
+
+        return Ok(new { message = "Item zaktualizowany pomyślnie!" });
+      }
+      catch
+      {
+        return StatusCode(500, new { message = "Błąd podczas edytowania itemu!" });
       }
     }
 

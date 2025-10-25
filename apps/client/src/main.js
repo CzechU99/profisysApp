@@ -16,6 +16,7 @@ import Column from 'primevue/column'
 import IconField from "primevue/iconfield";
 import InputIcon from "primevue/inputicon";
 import InputText from "primevue/inputtext";
+import InputNumber from "primevue/inputnumber";
 import Button from "primevue/button";
 import Toolbar from 'primevue/toolbar';
 import ContextMenu from 'primevue/contextmenu';
@@ -67,5 +68,6 @@ app.component('Button', Button)
 app.component('Dialog', Dialog)
 app.component('ContextMenu', ContextMenu)
 app.component('ProgressSpinner', ProgressSpinner)
+app.component('InputNumber', InputNumber)
 
 app.mount('#app')

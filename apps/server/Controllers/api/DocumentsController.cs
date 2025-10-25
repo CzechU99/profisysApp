@@ -19,7 +19,7 @@ namespace profisysApp.Controllers
         }
 
         [HttpGet]
-        // [Authorize(Roles = "User,Admin")]
+        [Authorize(Roles = "User,Admin")]
         public async Task<IActionResult> GetAllDocuments()
         {
             try
@@ -40,7 +40,7 @@ namespace profisysApp.Controllers
         }
 
         [HttpDelete]
-        // [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteAllDocuments()
         {
             try
@@ -64,7 +64,7 @@ namespace profisysApp.Controllers
         }
 
         [HttpDelete("{documentId}")]
-        // [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteDocument(int documentId)
         {
             try
@@ -88,7 +88,7 @@ namespace profisysApp.Controllers
         }
 
         [HttpPut]
-        // [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateDocument([FromBody] JsonElement updatedDocument)
         {
             try

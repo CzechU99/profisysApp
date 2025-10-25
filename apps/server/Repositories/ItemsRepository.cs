@@ -29,5 +29,15 @@ namespace profisysApp.Repositories
       await _context.SaveChangesAsync();
     }
 
+    public async Task UpdateItemAsync(DocumentItems updatedItem, DocumentItems itemToUpdate)
+    {
+      itemToUpdate.Product = updatedItem.Product;
+      itemToUpdate.Quantity = updatedItem.Quantity;
+      itemToUpdate.TaxRate = updatedItem.TaxRate;
+      itemToUpdate.Price = updatedItem.Price;
+
+      await SaveChangesItemsAsync();
+    }
+
   }
 }

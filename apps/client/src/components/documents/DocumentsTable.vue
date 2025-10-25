@@ -5,6 +5,7 @@
       @delete="handleDelete"
       @edit="openEditDialog"
       @delete-item="deleteDocumentItem"
+      @edit-item="openEditDialogItem"
     />
 
     <DataTable 
@@ -49,6 +50,12 @@
       v-model:document="editedDocument"
       @save="handleSave"
     />
+
+    <ItemEditDialog 
+      v-model:visible="editItemDialogVisible"
+      v-model:item="editedItem"
+      @save="handleItemSave"
+    />
   </div>
 </template>
 
@@ -56,17 +63,20 @@
 import { ref } from 'vue'
 import { FilterMatchMode } from '@primevue/core/api'
 import { useDocumentsStore } from '../../stores/documentsStore'
-import DocumentContextMenu from './DocumentContextMenu.vue'
+import DocumentContextMenu from '../contextmenu/ContextMenu.vue'
 import DocumentsTableHeader from './DocumentsTableHeader.vue'
 import DocumentItemsTable from './DocumentItemsTable.vue'
-import DocumentEditDialog from './DocumentEditDialog.vue'
+import DocumentEditDialog from '../contextmenu/DocumentEditDialog.vue'
+import ItemEditDialog from '../contextmenu/ItemEditDialog.vue'
 
 const store = useDocumentsStore()
 const expandedRows = ref([])
 const selectedDocument = ref(null)
 const contextMenu = ref()
 const editDialogVisible = ref(false)
+const editItemDialogVisible = ref(false)
 const editedDocument = ref(null)
+const editedItem = ref(null)
 
 const filters = ref({
   global: { value: null, matchMode: FilterMatchMode.CONTAINS }
@@ -85,6 +95,11 @@ const openEditDialog = (document) => {
   editDialogVisible.value = true
 }
 
+const openEditDialogItem = (item) => {
+  editedItem.value = JSON.parse(JSON.stringify(item))
+  editItemDialogVisible.value = true
+}
+
 const handleDelete = (id) => {
   store.deleteDocumentById(id)
 }
@@ -96,6 +111,11 @@ const deleteDocumentItem = (id) => {
 const handleSave = () => {
   store.updateDocuments(editedDocument.value)
   editDialogVisible.value = false
+}
+
+const handleItemSave = () => {
+  store.updateItems(editedItem.value)
+  editItemDialogVisible.value = false
 }
 </script>
 
