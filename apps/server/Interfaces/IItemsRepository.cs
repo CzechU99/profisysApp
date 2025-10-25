@@ -1,4 +1,5 @@
 using profisysApp.Entities;
+using profisysApp.Models;
 
 namespace profisysApp.Repositories
 {
@@ -7,6 +8,6 @@ namespace profisysApp.Repositories
         Task<DocumentItems?> GetItemByIdAsync(int documentId);
         Task DeleteItemAsync(DocumentItems itemId);
         Task SaveChangesItemsAsync();
-        Task UpdateItemAsync(DocumentItems updatedItem, DocumentItems itemToUpdate);
+        Task UpdateItemAsync(ItemUpdateDto updatedItem, DocumentItems itemToUpdate);
     }
 }

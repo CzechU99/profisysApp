@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using profisysApp.Data;
 using profisysApp.Entities;
+using profisysApp.Models;
 
 namespace profisysApp.Repositories
 {
@@ -57,7 +58,7 @@ namespace profisysApp.Repositories
       await _context.SaveChangesAsync();
     }
 
-    public async Task UpdateDocumentAsync(Documents updatedDocument, Documents documentToUpdate)
+    public async Task UpdateDocumentAsync(DocumentUpdateDto updatedDocument, Documents documentToUpdate)
     {
       documentToUpdate.Type = updatedDocument.Type;
       documentToUpdate.Date = updatedDocument.Date;

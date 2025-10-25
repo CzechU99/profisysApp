@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using profisysApp.Services;
-using System.Text.Json;
+using profisysApp.Models;
 
 namespace profisysApp.Controllers
 {
@@ -44,21 +44,16 @@ namespace profisysApp.Controllers
 
     [HttpPut]
     [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> UpdateDocument([FromBody] JsonElement updatedItem)
+    public async Task<IActionResult> UpdateDocument([FromBody] ItemUpdateDto updatedItem)
     {
       try
       {
-        var serializedItem = _itemsService.SerializeItem(updatedItem);
-
-        if (serializedItem == null)
-          return BadRequest(new { message = "Nie można zdekodować danych itemu." });
-
-        var itemToUpdate = await _itemsService.GetItemByIdAsync(serializedItem.Id);
+        var itemToUpdate = await _itemsService.GetItemByIdAsync(updatedItem.Id);
 
         if (itemToUpdate == null)
-            return NotFound(new { message = "Nie znaleziono itemu." });
+          return NotFound(new { message = "Nie znaleziono itemu." });
 
-        await _itemsService.UpdateItemAsync(serializedItem, itemToUpdate);
+        await _itemsService.UpdateItemAsync(updatedItem, itemToUpdate);
         await _auditService.LogAsync(User, "Aktualizacja itemu", $"ItemId: {itemToUpdate.Id}");
 
         return Ok(new { message = "Item zaktualizowany pomyślnie!" });

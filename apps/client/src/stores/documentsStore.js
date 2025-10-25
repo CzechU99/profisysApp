@@ -4,6 +4,7 @@ import { useToast } from 'vue-toastification'
 import { getAllDocuments, clearAllDocuments, fetchAllDocuments, 
   deleteDocument, updateDocument } from '../api/documentsService'
 import { deleteDocumentItem, updateItem } from '../api/itemsService'
+import { handleApiError } from '../utils/errorHandler'
 
 export const useDocumentsStore = defineStore('documents', () => {
   const documents = ref([])
@@ -16,20 +17,6 @@ export const useDocumentsStore = defineStore('documents', () => {
     documents.value = []
     loading.value = false
     error.value = null
-  }
-
-  function handleApiError(error) {
-    if (error.response?.data?.message) {
-      toast.error(error.response.data.message);
-    } else if (error.response?.status === 403) {
-      toast.error("Nie masz uprawnień do tej operacji!"); 
-    } else if (error.response?.status === 401) {
-      toast.error("Musisz się zalogować!"); 
-    } else if (error.message) {
-      toast.error("Błąd połączenia z serwerem!"); 
-    } else {
-      toast.error("Nieznany błąd");
-    }
   }
 
   async function loadAllDocuments() {
@@ -117,7 +104,6 @@ export const useDocumentsStore = defineStore('documents', () => {
       
       toast.success(response.data.message);
     } catch (error) {
-      console.error('Błąd updateItems:', error);
       handleApiError(error);
     }
   }

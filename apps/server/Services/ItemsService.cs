@@ -1,6 +1,6 @@
 using profisysApp.Entities;
 using profisysApp.Repositories;
-using System.Text.Json;
+using profisysApp.Models;
 
 namespace profisysApp.Services
 {
@@ -23,21 +23,9 @@ namespace profisysApp.Services
       await _itemsRepository.DeleteItemAsync(documentItem);
     }
 
-    public DocumentItems? SerializeItem(JsonElement updatedItem)
-    {
-      return JsonSerializer.Deserialize<DocumentItems>(
-        updatedItem.GetRawText(),
-        new JsonSerializerOptions {
-          PropertyNameCaseInsensitive = true,
-          PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-        }
-      );
-    }
-
-    public async Task UpdateItemAsync(DocumentItems updatedItem, DocumentItems documentToItem)
+    public async Task UpdateItemAsync(ItemUpdateDto updatedItem, DocumentItems documentToItem)
     {
       await _itemsRepository.UpdateItemAsync(updatedItem, documentToItem);
     }
-
   }
 }

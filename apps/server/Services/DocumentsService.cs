@@ -1,6 +1,7 @@
 using profisysApp.Entities;
 using profisysApp.Repositories;
 using System.Text.Json;
+using profisysApp.Models;
 
 namespace profisysApp.Services
 {
@@ -33,7 +34,7 @@ namespace profisysApp.Services
       await _documentsRepository.DeleteDocumentAsync(document);
     }
 
-    public async Task UpdateDocumentAsync(Documents updatedDocument, Documents documentToUpdate)
+    public async Task UpdateDocumentAsync(DocumentUpdateDto updatedDocument, Documents documentToUpdate)
     {
       await _documentsRepository.UpdateDocumentAsync(updatedDocument, documentToUpdate);
     }

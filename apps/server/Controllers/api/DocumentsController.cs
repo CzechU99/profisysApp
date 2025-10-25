@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using profisysApp.Services;
-using System.Text.Json;
+using profisysApp.Models;
 
 namespace profisysApp.Controllers
 {
@@ -27,13 +27,13 @@ namespace profisysApp.Controllers
                 var documents = await _documentsService.GetAllDocumentsAsync();
                 if (documents == null || !documents.Any())
                 {
-                    return Ok(new { message = "Administrator nie dodał żadnych dokumentów!"});
+                    return Ok(new { message = "Administrator nie dodał żadnych dokumentów!" });
                 }
 
                 await _auditService.LogAsync(User, "Wczytanie dokumentów z bazy");
                 return Ok(new { documents, message = "Dokumenty wczytane pomyślnie!" });
             }
-            catch 
+            catch
             {
                 return StatusCode(500, new { message = "Wystąpił błąd podczas pobierania dokumentów!" });
             }
@@ -57,7 +57,7 @@ namespace profisysApp.Controllers
 
                 return Ok(new { message = "Dokumenty zostały pomyślnie usunięte!" });
             }
-            catch 
+            catch
             {
                 return StatusCode(500, new { message = "Błąd podczas usuwania dokumentów!" });
             }
@@ -89,21 +89,16 @@ namespace profisysApp.Controllers
 
         [HttpPut]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdateDocument([FromBody] JsonElement updatedDocument)
+        public async Task<IActionResult> UpdateDocument([FromBody] DocumentUpdateDto updatedDocument)
         {
             try
             {
-                var serializedDocument = _documentsService.SerializeDocument(updatedDocument);
-
-                if (serializedDocument == null)
-                    return BadRequest(new { message = "Nie można zdekodować danych dokumentu." });
-
-                var documentToUpdate = await _documentsService.GetDocumentByIdAsync(serializedDocument.Id);
+                var documentToUpdate = await _documentsService.GetDocumentByIdAsync(updatedDocument.Id);
 
                 if (documentToUpdate == null)
                     return NotFound(new { message = "Nie znaleziono dokumentu." });
 
-                await _documentsService.UpdateDocumentAsync(serializedDocument, documentToUpdate);
+                await _documentsService.UpdateDocumentAsync(updatedDocument, documentToUpdate);
                 await _auditService.LogAsync(User, "Aktualizacja dokumentu", $"DocumentId: {documentToUpdate.Id}");
 
                 return Ok(new { message = "Dokument zaktualizowany pomyślnie!" });

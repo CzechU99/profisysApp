@@ -1,4 +1,5 @@
 using profisysApp.Entities;
+using profisysApp.Models;
 
 namespace profisysApp.Repositories
 {
@@ -10,7 +11,7 @@ namespace profisysApp.Repositories
         Task AddDocumentAsync(Documents document);
         Task DeleteAllDocumentsAsync();
         Task<List<DocumentItems>> GetMissingItemsAsync(Documents incomingDoc, Documents existingDoc);
-        Task UpdateDocumentAsync(Documents updatedDocument, Documents documentToUpdate);
+        Task UpdateDocumentAsync(DocumentUpdateDto updatedDocument, Documents documentToUpdate);
         Task SaveChangesDocumentsAsync();
     }
 }

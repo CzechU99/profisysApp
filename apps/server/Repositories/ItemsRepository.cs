@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using profisysApp.Data;
 using profisysApp.Entities;
+using profisysApp.Models;
 
 namespace profisysApp.Repositories
 {
@@ -29,7 +30,7 @@ namespace profisysApp.Repositories
       await _context.SaveChangesAsync();
     }
 
-    public async Task UpdateItemAsync(DocumentItems updatedItem, DocumentItems itemToUpdate)
+    public async Task UpdateItemAsync(ItemUpdateDto updatedItem, DocumentItems itemToUpdate)
     {
       itemToUpdate.Product = updatedItem.Product;
       itemToUpdate.Quantity = updatedItem.Quantity;
