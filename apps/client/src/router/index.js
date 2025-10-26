@@ -1,15 +1,47 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { jwtDecode } from 'jwt-decode'
 import DocumentsPage from '../views/DocumentsView.vue'
 import LoginPage from '../views/LoginView.vue'
 
 function isLoggedIn() {
-  return !!localStorage.getItem('token') 
+  const token = localStorage.getItem('token')
+  if (!token) return false
+  
+  try {
+    const decoded = jwtDecode(token)
+    const currentTime = Date.now() / 1000
+    
+    // Sprawdź czy token nie wygasł
+    if (decoded.exp < currentTime) {
+      localStorage.removeItem('token')
+      localStorage.removeItem('userRole')
+      return false
+    }
+    
+    return true
+  } catch (error) {
+    localStorage.removeItem('token')
+    localStorage.removeItem('userRole')
+    return false
+  }
 }
 
 const routes = [
-  { path: '/', redirect: '/login' }, 
-  { path: '/login', name: 'Login', component: LoginPage },
-  { path: '/documents', name: 'Documents', component: DocumentsPage, meta: { requiresAuth: true } },
+  { 
+    path: '/', 
+    redirect: '/login' 
+  },
+  { 
+    path: '/login', 
+    name: 'Login', 
+    component: LoginPage 
+  },
+  { 
+    path: '/documents', 
+    name: 'Documents', 
+    component: DocumentsPage, 
+    meta: { requiresAuth: true } 
+  },
 ]
 
 const router = createRouter({
@@ -18,12 +50,19 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.name !== 'Login' && !isLoggedIn()) {
+  const loggedIn = isLoggedIn()
+  
+  // Jeśli strona wymaga autoryzacji i użytkownik nie jest zalogowany
+  if (to.meta.requiresAuth && !loggedIn) {
     next({ name: 'Login' })
-  } else if (to.name === 'Login' && isLoggedIn()) {
+  } 
+  // Jeśli użytkownik jest zalogowany i próbuje wejść na login
+  else if (to.name === 'Login' && loggedIn) {
     next({ name: 'Documents' })
-  } else {
-    next() 
+  } 
+  // W pozostałych przypadkach przepuść
+  else {
+    next()
   }
 })
 

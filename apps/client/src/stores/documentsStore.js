@@ -110,7 +110,6 @@ export const useDocumentsStore = defineStore('documents', () => {
 
   async function deleteDocumentItemById(itemId) {
     try {
-      console.log(itemId)
       const response = await deleteDocumentItem(itemId)
 
       const document = documents.value.find(d =>
@@ -129,15 +128,10 @@ export const useDocumentsStore = defineStore('documents', () => {
 
   async function addItems(item){
     try {
-      console.log(item)
       const response = await addItem(item)
-
-      console.log(response)
 
       item.id = response.data.itemId
 
-      console.log(item)
-      
       const document = documents.value.find(d => d.id === item.documentId);
       if (document) {
         if (!document.documentItem) {

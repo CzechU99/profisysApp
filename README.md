@@ -78,8 +78,9 @@ Celem aplikacji **ProfisysApp** jest stworzenie systemu do zarządzania dokument
 | 🔐 **Logowanie** | Uwierzytelnianie użytkowników i przechowywanie tokenu JWT. |
 | 📝 **Lista dokumentów** | Wyświetlanie wszystkich dokumentów w tabeli z wyszukiwaniem i możliwością sortowania. |
 | 📂 **Import CSV** | Import danych z plików CSV do bazy danych. |
-| 🗑 **Usuwanie dokumentów** | Usuwanie pojedynczych lub wszystkich dokumentów w bazie. |
-| ✏️ **Edytowanie dokumentów** | Edycja danych dokumentów i zapisywanie zmian. |
+| ✅ **Dodawanie dokumentów i itemów** | Dodawanie nowych dokumentów i ich itemów. |
+| 🗑 **Usuwanie dokumentów i itemów** | Usuwanie pojedynczych lub wszystkich dokumentów i itemów. |
+| ✏️ **Edytowanie dokumentów i itemów** | Edycja danych dokumentów i itemów oraz zapisywanie zmian. |
 | 📡 **Autoryzacja JWT** | Bezpieczny dostęp do endpointów API tylko dla zalogowanych użytkowników. |
 | 💬 **Powiadomienia** | Toasty informujące o powodzeniu lub błędach operacji. |
 | 🔄 **Routing** | Strony chronione i przekierowania na login w przypadku braku tokenu. |
@@ -94,11 +95,16 @@ Celem aplikacji **ProfisysApp** jest stworzenie systemu do zarządzania dokument
 |---------|-----------|------|--------------|
 | **POST** | `/api/auth/login` | Logowanie użytkownika i wygenerowanie tokenu JWT | ❌ |
 | **POST** | `/api/auth/register` | Rejestracja nowego użytkownika. Niedostępne na frontend. | ❌ |
-| **GET** | `/api/documents` | Pobranie wszystkich dokumentów z bazy danych | ✅ |
-| **DELETE** | `/api/documents/{documentId}` | Usunięcie pojedynczego dokumentu po ID | ✅ |
-| **DELETE** | `/api/documents` | Usunięcie wszystkich dokumentów z bazy | ✅ |
-| **PUT** | `/api/documents` | Edycja dokumentu | ✅ |
 | **POST** | `/api/dataImport/csvFiles` | Import danych z plików CSV do bazy SQLite | ✅ |
+| **GET** | `/api/documents` | Pobranie wszystkich dokumentów z bazy danych | ✅ |
+| **DELETE** | `/api/documents` | Usunięcie wszystkich dokumentów z bazy | ✅ |
+| **POST** | `/api/documents` | Dodawanie nowego dokumentu do bazy | ✅ |
+| **DELETE** | `/api/documents/{documentId}` | Usunięcie pojedynczego dokumentu po ID | ✅ |
+| **PUT** | `/api/documents` | Edycja dokumentu | ✅ |
+| **DELETE** | `/api/items/{itemId}` | Usunięcie pojedynczego itemu po ID | ✅ |
+| **PUT** | `/api/items` | Edycja itemu | ✅ |
+| **POST** | `/api/items` | Dodawanie nowego itemu do bazy | ✅ |
+
 
 ✅ – wymaga tokenu JWT  
 ❌ – dostępny publicznie
@@ -111,7 +117,8 @@ Celem aplikacji **ProfisysApp** jest stworzenie systemu do zarządzania dokument
 |-------|----------|
 | Strona logowania | <img src="./images/login.png" alt="Strona logowania" width="400"> |
 | Lista dokumentów | <img src="./images/documents.png" alt="Lista dokumentów" width="400"> |
-| Edycja dokumentu | <img src="./images/edit.png" alt="Edycja dokumentu" width="400"> |
+| Edycja itemu | <img src="./images/edit.png" alt="Edycja itemu" width="400"> |
+| Dodanie dokumentu | <img src="./images/add.png" alt="Dodanie dokumentu" width="400"> |
 
 ---
 

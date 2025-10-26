@@ -1,29 +1,21 @@
-import axios from 'axios';
+import api from './axios'
 
 const API_URL = import.meta.env.VITE_API_BASE_URL
 
-axios.interceptors.request.use(config => {
-  const token = localStorage.getItem('token')
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`
-  }
-  return config
-})
-
 export const deleteDocumentItem = async (itemId) => {
-  const response = await axios.delete(`${API_URL}/items/${itemId}`);
+  const response = await api.delete(`${API_URL}/items/${itemId}`);
   return response;
 };
 
 export const updateItem = async (item) => {
-  const response = await axios.put(`${API_URL}/items`, item, {
+  const response = await api.put(`${API_URL}/items`, item, {
     headers: { 'Content-Type': 'application/json' }
   });
   return response;
 };
 
 export const addItem = async (item) => {
-  const response = await axios.post(`${API_URL}/items`, item, {
+  const response = await api.post(`${API_URL}/items`, item, {
     headers: { 'Content-Type': 'application/json' }
   });
   return response;
