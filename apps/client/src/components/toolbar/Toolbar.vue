@@ -2,15 +2,46 @@
   <Toolbar :pt="{ root: { class: 'custom-toolbar' } }">
     <template #start>
       <div class="logo"><span>ProfiSys</span></div>
-      <DocumentActions />
+      <DocumentActions 
+        @open-add-document="openAddDocumentDialog"
+      />
       <LogoutButton />
     </template>
   </Toolbar>
+
+  <DocumentAddDialog 
+    v-model:visible="addDocumentDialogVisible"
+    v-model:document="addDocument"
+    @save="handleAddDocumentSave"
+/>
 </template>
 
 <script setup>
+import { ref } from 'vue'
 import DocumentActions from './DocumentsActions.vue'
 import LogoutButton from './LogoutButton.vue'
+import { useDocumentsStore } from '../../stores/documentsStore'
+import DocumentAddDialog from '../documents/DocumentAddDialog.vue'
+
+const addDocument = ref(null)
+const store = useDocumentsStore()
+const addDocumentDialogVisible = ref(false)
+
+const handleAddDocumentSave = () => {
+  store.addDocuments(addDocument.value)
+  addDocumentDialogVisible.value = false
+  addDocument.value = {                
+    type: '',
+    date: new Date().toISOString().split('T')[0],
+    firstName: '',
+    lastName: '',
+    city: ''
+  }
+}
+
+const openAddDocumentDialog = () => {
+  addDocumentDialogVisible.value = true
+}
 </script>
 
 <style scoped>

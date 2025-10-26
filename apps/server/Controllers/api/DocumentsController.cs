@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using profisysApp.Services;
 using profisysApp.Models;
+using profisysApp.Entities;
+using AutoMapper;
 
 namespace profisysApp.Controllers
 {
@@ -11,11 +13,17 @@ namespace profisysApp.Controllers
     {
         private readonly DocumentsService _documentsService;
         private readonly AuditService _auditService;
+        private readonly IMapper _mapper;
 
-        public DocumentsController(DocumentsService documentsService, AuditService auditService)
+        public DocumentsController(
+            IMapper mapper,
+            DocumentsService documentsService,
+            AuditService auditService
+        )
         {
             _documentsService = documentsService;
             _auditService = auditService;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -27,7 +35,10 @@ namespace profisysApp.Controllers
                 var documents = await _documentsService.GetAllDocumentsAsync();
                 if (documents == null || !documents.Any())
                 {
-                    return Ok(new { message = "Administrator nie dodał żadnych dokumentów!" });
+                    return Ok(new { 
+                        documents = new List<Documents>(), 
+                        message = "Administrator nie dodał żadnych dokumentów!" 
+                    });
                 }
 
                 await _auditService.LogAsync(User, "Wczytanie dokumentów z bazy");
@@ -89,7 +100,7 @@ namespace profisysApp.Controllers
 
         [HttpPut]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdateDocument([FromBody] DocumentUpdateDto updatedDocument)
+        public async Task<IActionResult> UpdateDocument([FromBody] DocumentDto updatedDocument)
         {
             try
             {
@@ -108,6 +119,31 @@ namespace profisysApp.Controllers
                 return StatusCode(500, new { message = "Błąd podczas edytowania dokumentu!" });
             }
 
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> AddDocument([FromBody] DocumentDto document)
+        {
+            try
+            {
+                var newDocument = _mapper.Map<Documents>(document);
+
+                await _documentsService.AddDocumentAsync(newDocument);
+                await _documentsService.SaveChangesDocumentsAsync();
+
+                await _auditService.LogAsync(User, "Dodanie dokumentu", $"DokumentId: {newDocument.Id}");
+
+                return Ok(new
+                {
+                    message = "Dodano nowy dokument!",
+                    documentId = newDocument.Id
+                });
+            }
+            catch
+            {
+                return StatusCode(500, new { message = "Błąd podczas dodawania dokumentu!" });
+            }
         }
 
     }

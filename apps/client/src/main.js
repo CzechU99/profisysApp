@@ -31,7 +31,7 @@ const pinia = createPinia()
 app.use(pinia)
 
 app.use(Toast, {
-  position: "top-center",
+  position: "bottom-right",
   timeout: 3000,
   closeOnClick: true,
   pauseOnFocusLoss: true,

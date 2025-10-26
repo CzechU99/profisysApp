@@ -40,21 +40,10 @@ namespace profisysApp.Repositories
       await SaveChangesItemsAsync();
     }
 
-    public async Task AddItemAsync(ItemDto newItem)
+    public async Task AddItemAsync(DocumentItems newItem)
     {
-
-      var documentItem = new DocumentItems
-      {
-        Product = newItem.Product,
-        Quantity = newItem.Quantity,
-        Price = newItem.Price,
-        TaxRate = newItem.TaxRate,
-        DocumentId = newItem.DocumentId,
-        Ordinal = newItem.Ordinal
-      };
-
-      await _context.DocumentItems.AddAsync(documentItem);
-      await SaveChangesItemsAsync();
+      await _context.DocumentItems.AddAsync(newItem);
+      await _context.SaveChangesAsync();
     }
 
   }

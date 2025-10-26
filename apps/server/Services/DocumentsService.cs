@@ -33,7 +33,7 @@ namespace profisysApp.Services
       await _documentsRepository.DeleteDocumentAsync(document);
     }
 
-    public async Task UpdateDocumentAsync(DocumentUpdateDto updatedDocument, Documents documentToUpdate)
+    public async Task UpdateDocumentAsync(DocumentDto updatedDocument, Documents documentToUpdate)
     {
       await _documentsRepository.UpdateDocumentAsync(updatedDocument, documentToUpdate);
     }
@@ -52,10 +52,20 @@ namespace profisysApp.Services
 
       await _documentsRepository.AddDocumentAsync(document);
     }
-    
+
+    public async Task AddDocumentAsync(Documents document)
+    {
+      await _documentsRepository.AddDocumentAsync(document);
+    }
+
     public async Task SaveChangesDocumentsAsync()
     {
       await _documentsRepository.SaveChangesDocumentsAsync();
+    }
+
+    public async Task<int> GetLastInsertedIdAsync()
+    {
+      return await _documentsRepository.GetLastInsertedIdAsync();
     }
   }
 }

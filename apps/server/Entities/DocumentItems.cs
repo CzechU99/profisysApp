@@ -22,6 +22,6 @@ namespace profisysApp.Entities
         public int TaxRate { get; set; }
 
         [ForeignKey("DocumentId")]
-        public Documents Document { get; set; } = null!;
+        public Documents? Document { get; set; }
     }
 }

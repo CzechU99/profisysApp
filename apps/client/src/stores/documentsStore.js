@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { useToast } from 'vue-toastification'
 import { getAllDocuments, clearAllDocuments, fetchAllDocuments, 
-  deleteDocument, updateDocument } from '../api/documentsService'
+  deleteDocument, updateDocument, addDocument } from '../api/documentsService'
 import { deleteDocumentItem, updateItem, addItem } from '../api/itemsService'
 import { handleApiError } from '../utils/errorHandler'
 
@@ -57,7 +57,7 @@ export const useDocumentsStore = defineStore('documents', () => {
 
     try {
       const responseServer = await getAllDocuments()
-      documents.value = responseServer.data.documents
+      documents.value = responseServer.data.documents.sort((a, b) => new Date(b.date) - new Date(a.date))
       toast.info(responseServer.data.message)
     } catch (error) {
       handleApiError(error)
@@ -110,6 +110,7 @@ export const useDocumentsStore = defineStore('documents', () => {
 
   async function deleteDocumentItemById(itemId) {
     try {
+      console.log(itemId)
       const response = await deleteDocumentItem(itemId)
 
       const document = documents.value.find(d =>
@@ -128,7 +129,14 @@ export const useDocumentsStore = defineStore('documents', () => {
 
   async function addItems(item){
     try {
+      console.log(item)
       const response = await addItem(item)
+
+      console.log(response)
+
+      item.id = response.data.itemId
+
+      console.log(item)
       
       const document = documents.value.find(d => d.id === item.documentId);
       if (document) {
@@ -137,6 +145,19 @@ export const useDocumentsStore = defineStore('documents', () => {
         }
         document.documentItem.push(item);
       }
+      
+      toast.success(response.data.message)
+    } catch (error) {
+      handleApiError(error)
+    }
+  }
+
+  async function addDocuments(documentData) {
+    try {
+      const response = await addDocument(documentData)
+      
+      documentData.id = response.data.documentId
+      documents.value.unshift(documentData)
       
       toast.success(response.data.message)
     } catch (error) {
@@ -157,6 +178,7 @@ export const useDocumentsStore = defineStore('documents', () => {
     updateDocuments,
     deleteDocumentItemById,
     updateItems,
-    addItems
+    addItems,
+    addDocuments
   }
 })

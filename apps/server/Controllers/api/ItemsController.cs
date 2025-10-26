@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using profisysApp.Services;
 using profisysApp.Models;
+using profisysApp.Entities;
+using AutoMapper;
 
 namespace profisysApp.Controllers
 {
@@ -12,17 +14,24 @@ namespace profisysApp.Controllers
     private readonly ItemsService _itemsService;
     private readonly DocumentsService _documentsService;
     private readonly AuditService _auditService;
+    private readonly IMapper _mapper;
 
-    public ItemsController(DocumentsService documentsService, ItemsService itemsService, AuditService auditService)
+    public ItemsController(
+      IMapper mapper,
+      DocumentsService documentsService,
+      ItemsService itemsService,
+      AuditService auditService
+    )
     {
       _itemsService = itemsService;
       _auditService = auditService;
       _documentsService = documentsService;
+      _mapper = mapper;
     }
 
     [HttpDelete("{itemId}")]
     [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> DeleteDocumentItem(int itemId)
+    public async Task<IActionResult> DeleteItem(int itemId)
     {
       try
       {
@@ -68,10 +77,12 @@ namespace profisysApp.Controllers
 
     [HttpPost]
     [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> AddItem([FromBody] ItemDto newItem)
+    public async Task<IActionResult> AddItem([FromBody] ItemDto item)
     {
       try
       {
+        var newItem = _mapper.Map<DocumentItems>(item);
+
         var document = await _documentsService.GetDocumentByIdAsync(newItem.DocumentId);
 
         if (document == null)
@@ -82,10 +93,15 @@ namespace profisysApp.Controllers
           : 0;
 
         newItem.Ordinal = lastOrdinal + 1;
+        
         await _itemsService.AddItemAsync(newItem);
         await _auditService.LogAsync(User, "Dodanie itemu", $"ItemId: {newItem.Id}");
 
-        return Ok(new { message = "Dodano nowy item do dokumentu!" });
+        return Ok(new
+        {
+          message = "Dodano nowy item do dokumentu!",
+          itemId = newItem.Id
+        });
       }
       catch
       {

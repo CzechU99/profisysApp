@@ -11,7 +11,10 @@ namespace profisysApp.Controllers
         private readonly AuthService _authService;
         private readonly AuditService _auditService;
 
-        public AuthController(AuthService authService, AuditService auditService)
+        public AuthController(
+            AuthService authService,
+            AuditService auditService
+        )
         {
             _authService = authService;
             _auditService = auditService;

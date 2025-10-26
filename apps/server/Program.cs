@@ -31,6 +31,9 @@ builder.Services.AddSingleton<AuditService>();
 // Seeder
 builder.Services.AddHostedService<DatabaseSeeder>();
 
+// Mapper
+builder.Services.AddAutoMapper(typeof(Program));
+
 // Controllers & JSON
 builder.Services.AddControllers()
     .AddJsonOptions(options =>

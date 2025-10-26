@@ -11,7 +11,8 @@ namespace profisysApp.Repositories
         Task AddDocumentAsync(Documents document);
         Task DeleteAllDocumentsAsync();
         Task<List<DocumentItems>> GetMissingItemsAsync(Documents incomingDoc, Documents existingDoc);
-        Task UpdateDocumentAsync(DocumentUpdateDto updatedDocument, Documents documentToUpdate);
+        Task UpdateDocumentAsync(DocumentDto updatedDocument, Documents documentToUpdate);
         Task SaveChangesDocumentsAsync();
+        Task<int> GetLastInsertedIdAsync();
     }
 }

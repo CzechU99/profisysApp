@@ -36,3 +36,10 @@ export const updateDocument = async (document) => {
   });
   return response;
 };
+
+export const addDocument = async (document) => {
+  const response = await axios.post(`${API_URL}/documents`, document, {
+    headers: { 'Content-Type': 'application/json' }
+  });
+  return response;
+};

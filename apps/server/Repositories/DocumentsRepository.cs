@@ -58,7 +58,7 @@ namespace profisysApp.Repositories
       await _context.SaveChangesAsync();
     }
 
-    public async Task UpdateDocumentAsync(DocumentUpdateDto updatedDocument, Documents documentToUpdate)
+    public async Task UpdateDocumentAsync(DocumentDto updatedDocument, Documents documentToUpdate)
     {
       documentToUpdate.Type = updatedDocument.Type;
       documentToUpdate.Date = updatedDocument.Date;
@@ -67,6 +67,11 @@ namespace profisysApp.Repositories
       documentToUpdate.City = updatedDocument.City;
 
       await _context.SaveChangesAsync();
+    }
+
+    public async Task<int> GetLastInsertedIdAsync()
+    {
+      return await _context.Documents.MaxAsync(d => (int?)d.Id) ?? 0;
     }
   }
 }

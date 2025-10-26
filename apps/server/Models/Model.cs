@@ -22,7 +22,7 @@ namespace profisysApp.Models
     public string Password { get; set; } = string.Empty;
   }
 
-  public class DocumentUpdateDto
+  public class DocumentDto
   {
     public int Id { get; set; }
 

@@ -28,7 +28,7 @@ namespace profisysApp.Services
       await _itemsRepository.UpdateItemAsync(updatedItem, documentToItem);
     }
 
-    public async Task AddItemAsync(ItemDto newItem)
+    public async Task AddItemAsync(DocumentItems newItem)
     {
       await _itemsRepository.AddItemAsync(newItem);
     }

@@ -136,7 +136,6 @@ const handleItemSave = () => {
 }
 
 const handleAddItemSave = () => {
-  console.log(addItem.value)
   store.addItems(addItem.value)
   addItemDialogVisible.value = false
 }
