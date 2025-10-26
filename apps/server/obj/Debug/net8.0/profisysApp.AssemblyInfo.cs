@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("profisysApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b0cb10f3921488b87183ba460b6e9740ac83ee28")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0ed1f889a6a5825a714ded48c6215d0e0c6a0f6e")]
 [assembly: System.Reflection.AssemblyProductAttribute("profisysApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("profisysApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
