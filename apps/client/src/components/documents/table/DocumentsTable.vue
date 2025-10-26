@@ -122,25 +122,25 @@ const openAddDialogItem = (document) => {
 }
 
 const handleDelete = (id) => {
-  documentsStore.deleteDocumentById(id)
+  documentsStore.remove(id)
 }
 
 const deleteDocumentItem = (id) => {
-  itemsStore.deleteDocumentItemById(id)
+  itemsStore.remove(id)
 }
 
 const handleSave = () => {
-  documentsStore.updateDocuments(editedDocument.value)
+  documentsStore.update(editedDocument.value)
   editDialogVisible.value = false
 }
 
 const handleItemSave = () => {
-  itemsStore.updateItems(editedItem.value)
+  itemsStore.update(editedItem.value)
   editItemDialogVisible.value = false
 }
 
 const handleAddItemSave = () => {
-  itemsStore.addItems(addItem.value)
+  itemsStore.create(addItem.value)
   addItemDialogVisible.value = false
 }
 </script>

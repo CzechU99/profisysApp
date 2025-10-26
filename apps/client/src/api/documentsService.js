@@ -2,36 +2,30 @@ import api from './axios'
 
 const API_URL = import.meta.env.VITE_API_BASE_URL
 
-export const getAllDocuments = async () => {
-  const response = await api.get(`${API_URL}/documents`);
-  return response;
-};
+export const fetchAll = async () => {
+  return await api.get(`${API_URL}/documents`)
+}
 
-export const fetchAllDocuments = async () => {
-  const response = await api.post(`${API_URL}/dataImport/csvFiles`);
-  return response;
-};
+export const importFromCsv = async () => {
+  return await api.post(`${API_URL}/dataImport/csvFiles`)
+}
 
-export const clearAllDocuments = async () => {
-  const response = await api.delete(`${API_URL}/documents`);
-  return response;
-};
+export const deleteAll = async () => {
+  return await api.delete(`${API_URL}/documents`)
+}
 
-export const deleteDocument = async (documentId) => {
-  const response = await api.delete(`${API_URL}/documents/${documentId}`);
-  return response;
-};
+export const deleteById = async (documentId) => {
+  return await api.delete(`${API_URL}/documents/${documentId}`)
+}
 
-export const updateDocument = async (document) => {
-  const response = await api.put(`${API_URL}/documents`, document, {
+export const update = async (document) => {
+  return await api.put(`${API_URL}/documents`, document, {
     headers: { 'Content-Type': 'application/json' }
-  });
-  return response;
-};
+  })
+}
 
-export const addDocument = async (document) => {
-  const response = await api.post(`${API_URL}/documents`, document, {
+export const create = async (document) => {
+  return await api.post(`${API_URL}/documents`, document, {
     headers: { 'Content-Type': 'application/json' }
-  });
-  return response;
-};
+  })
+}

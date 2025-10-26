@@ -1,66 +1,72 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { useToast } from 'vue-toastification'
-import { getAllDocuments, clearAllDocuments, fetchAllDocuments, 
-  deleteDocument, updateDocument, addDocument } from '../api/documentsService'
+import { 
+  fetchAll as apiFetchAll, 
+  deleteAll as apiDeleteAll, 
+  importFromCsv as apiImportFromCsv, 
+  deleteById as apiDeleteById, 
+  update as apiUpdate, 
+  create as apiCreate 
+} from '../api/documentsService'
 import { handleApiError } from '../utils/errorHandler'
 
 export const useDocumentsStore = defineStore('documents', () => {
   const documents = ref([])
-  const loading = ref(false)
-  const deleting = ref(false)
+  const isLoading = ref(false)
+  const isDeleting = ref(false)
   const toast = useToast()
 
-  function clearDocuments() {
+  function clear() {
     documents.value = []
-    loading.value = false
+    isLoading.value = false
   }
 
-  async function loadAllDocuments() {
+  async function fetchAll() {
     try {
-      loading.value = true
-      const response = await getAllDocuments()
+      isLoading.value = true
+      const response = await apiFetchAll()
       documents.value = response.data.documents.sort((a, b) => new Date(b.date) - new Date(a.date))
       toast.info(response.data.message)
     } catch (error) {
       handleApiError(error)
     } finally {
-      loading.value = false
+      isLoading.value = false
     }
   }
 
-  async function deleteAllDocuments() {
-    deleting.value = true
+  async function deleteAll() {
+    isDeleting.value = true
     try {
-      const response = await clearAllDocuments()
-      clearDocuments()
+      const response = await apiDeleteAll()
+      clear()
       toast.info(response.data.message)
     } catch (error) {
       handleApiError(error)
     } finally {
-      deleting.value = false
+      isDeleting.value = false
     }
   }
 
-  async function loadDocsToDatabase() {
-    loading.value = true
+  async function importFromCsv() {
+    isLoading.value = true
     try {
-      const responseCsvFiles = await fetchAllDocuments()
-      toast.info(responseCsvFiles.data.message)
+      const importResponse = await apiImportFromCsv()
+      toast.info(importResponse.data.message)
       
-      const responseServer = await getAllDocuments()
-      documents.value = responseServer.data.documents.sort((a, b) => new Date(b.date) - new Date(a.date))
-      toast.info(responseServer.data.message)
+      const fetchResponse = await apiFetchAll()
+      documents.value = fetchResponse.data.documents.sort((a, b) => new Date(b.date) - new Date(a.date))
+      toast.info(fetchResponse.data.message)
     } catch (error) {
       handleApiError(error)
     } finally {
-      loading.value = false
+      isLoading.value = false
     }
   }
 
-  async function deleteDocumentById(id) {
+  async function remove(id) {
     try {
-      const response = await deleteDocument(id)
+      const response = await apiDeleteById(id)
       documents.value = documents.value.filter(doc => doc.id !== id)
       toast.info(response.data.message)
     } catch (error) {
@@ -68,9 +74,9 @@ export const useDocumentsStore = defineStore('documents', () => {
     }
   }
 
-  async function updateDocuments(document) {
+  async function update(document) {
     try {
-      const response = await updateDocument(document)
+      const response = await apiUpdate(document)
       const index = documents.value.findIndex(d => d.id === document.id)
       if (index !== -1) documents.value[index] = { ...document }
       toast.success(response.data.message)
@@ -79,9 +85,9 @@ export const useDocumentsStore = defineStore('documents', () => {
     }
   }
 
-  async function addDocuments(documentData) {
+  async function create(documentData) {
     try {
-      const response = await addDocument(documentData)
+      const response = await apiCreate(documentData)
       documentData.id = response.data.documentId
       documents.value.unshift(documentData)
       toast.success(response.data.message)
@@ -92,14 +98,14 @@ export const useDocumentsStore = defineStore('documents', () => {
 
   return {
     documents,
-    loading,
-    deleting,
-    loadAllDocuments,
-    deleteAllDocuments,
-    loadDocsToDatabase,
-    deleteDocumentById,
-    clearDocuments,
-    updateDocuments,
-    addDocuments
+    isLoading,
+    isDeleting,
+    fetchAll,
+    deleteAll,
+    importFromCsv,
+    remove,
+    update,
+    create,
+    clear
   }
 })

@@ -4,8 +4,8 @@
       label="Wczytaj dokumenty" 
       icon="pi pi-download" 
       class="btn-load"
-      @click="store.loadDocsToDatabase"
-      v-if="auth.isAdmin"
+      @click="documentsStore.importFromCsv"
+      v-if="authStore.isAdmin"
     />
     <Button 
       label="Wyczyść dokumenty" 
@@ -13,8 +13,8 @@
       class="btn-clear"
       severity="danger"
       outlined
-      @click="store.deleteAllDocuments"
-      v-if="auth.isAdmin"
+      @click="documentsStore.deleteAll"
+      v-if="authStore.isAdmin"
     />
     <Button
       label="Dodaj dokument"
@@ -22,7 +22,7 @@
       class="btn-add"
       severity="success"
       @click="$emit('open-add-document')"
-      v-if="auth.isAdmin"
+      v-if="authStore.isAdmin"
     />
   </div>
 </template>
@@ -31,8 +31,8 @@
 import { useDocumentsStore } from '../../stores/documentsStore'
 import { useAuthStore } from '../../stores/authStore'
 
-const store = useDocumentsStore()
-const auth = useAuthStore()
+const documentsStore = useDocumentsStore()
+const authStore = useAuthStore()
 
 defineEmits(['open-add-document'])
 </script>

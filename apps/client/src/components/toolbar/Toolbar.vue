@@ -28,7 +28,7 @@ const documentsStore = useDocumentsStore()
 const addDocumentDialogVisible = ref(false)
 
 const handleAddDocumentSave = () => {
-  documentsStore.addDocuments(addDocument.value)
+  documentsStore.create(addDocument.value)
   addDocumentDialogVisible.value = false
   addDocument.value = {                
     type: '',

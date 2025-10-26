@@ -47,7 +47,7 @@ export const useAuthStore = defineStore('auth', {
       localStorage.removeItem('token')
       localStorage.removeItem('user')
       
-      documentsStore.clearDocuments()
+      documentsStore.clear()
       
       toast.success("Wylogowano pomyślnie!");
       router.push('/login')

@@ -12,6 +12,6 @@
 <script setup>
 import { useAuthStore } from '../../stores/authStore'
 
-const auth = useAuthStore()
-const logout = async () => await auth.logout()
+const authStore = useAuthStore()
+const logout = async () => await authStore.logout()
 </script>

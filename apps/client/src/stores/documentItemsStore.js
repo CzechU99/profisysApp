@@ -1,15 +1,19 @@
 import { defineStore } from 'pinia'
 import { useToast } from 'vue-toastification'
-import { deleteDocumentItem, updateItem, addItem } from '../api/itemsService'
+import { 
+  create as apiCreate, 
+  update as apiUpdate, 
+  remove as apiRemove 
+} from '../api/itemsService'
 import { handleApiError } from '../utils/errorHandler'
 import { useDocumentsStore } from './documentsStore'
 
 export const useDocumentItemsStore = defineStore('documentItems', () => {
   const toast = useToast()
 
-  async function updateItems(item) {
+  async function update(item) {
     try {
-      const response = await updateItem(item)
+      const response = await apiUpdate(item)
       const documentsStore = useDocumentsStore()
       
       const document = documentsStore.documents.find(d => 
@@ -29,13 +33,13 @@ export const useDocumentItemsStore = defineStore('documentItems', () => {
     }
   }
 
-  async function deleteDocumentItemById(itemId) {
+  async function remove(itemId) {
     try {
-      const response = await deleteDocumentItem(itemId)
+      const response = await apiRemove(itemId)
       const documentsStore = useDocumentsStore()
 
       const document = documentsStore.documents.find(d =>
-        d.documentItem.some(i => i.id === itemId)
+        d.documentItem?.some(i => i.id === itemId)
       )
 
       if (document) {
@@ -48,9 +52,9 @@ export const useDocumentItemsStore = defineStore('documentItems', () => {
     }
   }
 
-  async function addItems(item) {
+  async function create(item) {
     try {
-      const response = await addItem(item)
+      const response = await apiCreate(item)
       const documentsStore = useDocumentsStore()
       
       item.id = response.data.itemId
@@ -70,8 +74,8 @@ export const useDocumentItemsStore = defineStore('documentItems', () => {
   }
 
   return {
-    updateItems,
-    deleteDocumentItemById,
-    addItems
+    update,
+    remove,
+    create
   }
 })
