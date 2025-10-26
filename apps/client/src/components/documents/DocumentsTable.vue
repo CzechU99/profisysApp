@@ -13,7 +13,7 @@
       v-model:filters="filters"
       v-model:expandedRows="expandedRows"
       v-model:contextMenuSelection="selectedDocument"
-      :value="store.documents" 
+      :value="documentsStore.documents" 
       dataKey="id" 
       :paginator="true" 
       :rows="10" 
@@ -70,6 +70,8 @@
 import { ref } from 'vue'
 import { FilterMatchMode } from '@primevue/core/api'
 import { useDocumentsStore } from '../../stores/documentsStore'
+import { useDocumentItemsStore } from '../../stores/documentItemsStore'
+
 import DocumentContextMenu from '../contextmenu/ContextMenu.vue'
 import DocumentsTableHeader from './DocumentsTableHeader.vue'
 import DocumentItemsTable from './DocumentItemsTable.vue'
@@ -77,7 +79,9 @@ import DocumentEditDialog from '../contextmenu/DocumentEditDialog.vue'
 import ItemEditDialog from '../contextmenu/ItemEditDialog.vue'
 import ItemAddDialog from '../contextmenu/ItemAddDialog.vue'
 
-const store = useDocumentsStore()
+const documentsStore = useDocumentsStore()
+const itemsStore = useDocumentItemsStore();
+
 const expandedRows = ref([])
 const selectedDocument = ref(null)
 const contextMenu = ref()
@@ -118,25 +122,25 @@ const openAddDialogItem = (document) => {
 }
 
 const handleDelete = (id) => {
-  store.deleteDocumentById(id)
+  documentsStore.deleteDocumentById(id)
 }
 
 const deleteDocumentItem = (id) => {
-  store.deleteDocumentItemById(id)
+  itemsStore.deleteDocumentItemById(id)
 }
 
 const handleSave = () => {
-  store.updateDocuments(editedDocument.value)
+  documentsStore.updateDocuments(editedDocument.value)
   editDialogVisible.value = false
 }
 
 const handleItemSave = () => {
-  store.updateItems(editedItem.value)
+  itemsStore.updateItems(editedItem.value)
   editItemDialogVisible.value = false
 }
 
 const handleAddItemSave = () => {
-  store.addItems(addItem.value)
+  itemsStore.addItems(addItem.value)
   addItemDialogVisible.value = false
 }
 </script>

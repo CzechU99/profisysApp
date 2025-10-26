@@ -24,11 +24,11 @@ import { useDocumentsStore } from '../../stores/documentsStore'
 import DocumentAddDialog from '../documents/DocumentAddDialog.vue'
 
 const addDocument = ref(null)
-const store = useDocumentsStore()
+const documentsStore = useDocumentsStore()
 const addDocumentDialogVisible = ref(false)
 
 const handleAddDocumentSave = () => {
-  store.addDocuments(addDocument.value)
+  documentsStore.addDocuments(addDocument.value)
   addDocumentDialogVisible.value = false
   addDocument.value = {                
     type: '',

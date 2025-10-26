@@ -3,7 +3,7 @@
   <Toolbar />
 
   <div class="tableContainer">
-    <ProgressSpinner v-if="store.loading || store.deleting" class="my-spinner" />
+    <ProgressSpinner v-if="documentsStore.loading || documentsStore.deleting" class="my-spinner" />
     <DocumentsTable v-else />
   </div>
   
@@ -18,13 +18,13 @@ import { useDocumentsStore } from '../stores/documentsStore'
 export default {
   components: { DocumentsTable, Toolbar },
   setup() {
-    const store = useDocumentsStore()
+    const documentsStore = useDocumentsStore()
 
     onMounted(async () => {
-      await store.loadAllDocuments()
+      await documentsStore.loadAllDocuments()
     })
 
-    return { store }
+    return { documentsStore }
   }
 }
 </script>
