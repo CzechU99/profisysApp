@@ -11,7 +11,6 @@ function isLoggedIn() {
     const decoded = jwtDecode(token)
     const currentTime = Date.now() / 1000
     
-    // Sprawdź czy token nie wygasł
     if (decoded.exp < currentTime) {
       localStorage.removeItem('token')
       localStorage.removeItem('userRole')
@@ -52,15 +51,12 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const loggedIn = isLoggedIn()
   
-  // Jeśli strona wymaga autoryzacji i użytkownik nie jest zalogowany
   if (to.meta.requiresAuth && !loggedIn) {
     next({ name: 'Login' })
   } 
-  // Jeśli użytkownik jest zalogowany i próbuje wejść na login
   else if (to.name === 'Login' && loggedIn) {
     next({ name: 'Documents' })
   } 
-  // W pozostałych przypadkach przepuść
   else {
     next()
   }

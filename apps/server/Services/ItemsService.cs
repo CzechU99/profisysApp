@@ -32,5 +32,15 @@ namespace profisysApp.Services
     {
       await _itemsRepository.AddItemAsync(newItem);
     }
+
+    public int GetItemsLastOrdinal(Documents newDocument)
+    {
+      return _itemsRepository.GetItemsLastOrdinal(newDocument);
+    }
+
+    public int CountNewOrdinal(int lastOrdinal)
+    {
+      return lastOrdinal + 1;
+    }
   }
 }

@@ -46,5 +46,10 @@ namespace profisysApp.Repositories
       await _context.SaveChangesAsync();
     }
 
+    public int GetItemsLastOrdinal(Documents newDocument)
+    {
+      return newDocument.DocumentItem.Any() ? newDocument.DocumentItem.Max(i => i.Ordinal) : 0;
+    }
+
   }
 }

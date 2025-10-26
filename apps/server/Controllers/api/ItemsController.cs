@@ -82,17 +82,13 @@ namespace profisysApp.Controllers
       try
       {
         var newItem = _mapper.Map<DocumentItems>(item);
-
         var document = await _documentsService.GetDocumentByIdAsync(newItem.DocumentId);
 
         if (document == null)
           return NotFound(new { message = "Nie znaleziono dokumentu." });
 
-        var lastOrdinal = document.DocumentItem.Any()
-          ? document.DocumentItem.Max(i => i.Ordinal)
-          : 0;
-
-        newItem.Ordinal = lastOrdinal + 1;
+        var lastOrdinal = _itemsService.GetItemsLastOrdinal(document);
+        newItem.Ordinal = _itemsService.CountNewOrdinal(lastOrdinal);
         
         await _itemsService.AddItemAsync(newItem);
         await _auditService.LogAsync(User, "Dodanie itemu", $"ItemId: {newItem.Id}");
