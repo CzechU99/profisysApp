@@ -11,7 +11,7 @@
 
 <script>
 import { onMounted } from 'vue';
-import DocumentsTable from '../components/documents/DocumentsTable.vue';
+import DocumentsTable from '../components/documents/table/DocumentsTable.vue';
 import Toolbar from '../components/toolbar/Toolbar.vue';
 import { useDocumentsStore } from '../stores/documentsStore'
 

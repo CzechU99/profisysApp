@@ -69,15 +69,15 @@
 <script setup>
 import { ref } from 'vue'
 import { FilterMatchMode } from '@primevue/core/api'
-import { useDocumentsStore } from '../../stores/documentsStore'
-import { useDocumentItemsStore } from '../../stores/documentItemsStore'
+import { useDocumentsStore } from '../../../stores/documentsStore'
+import { useDocumentItemsStore } from '../../../stores/documentItemsStore'
 
-import DocumentContextMenu from '../contextmenu/ContextMenu.vue'
+import DocumentContextMenu from '../context-menu/ContextMenu.vue'
 import DocumentsTableHeader from './DocumentsTableHeader.vue'
 import DocumentItemsTable from './DocumentItemsTable.vue'
-import DocumentEditDialog from '../contextmenu/DocumentEditDialog.vue'
-import ItemEditDialog from '../contextmenu/ItemEditDialog.vue'
-import ItemAddDialog from '../contextmenu/ItemAddDialog.vue'
+import DocumentEditDialog from '../dialogs/DocumentEditDialog.vue'
+import ItemEditDialog from '../dialogs/ItemEditDialog.vue'
+import ItemAddDialog from '../dialogs/ItemAddDialog.vue'
 
 const documentsStore = useDocumentsStore()
 const itemsStore = useDocumentItemsStore();

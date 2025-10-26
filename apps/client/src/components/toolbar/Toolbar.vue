@@ -21,7 +21,7 @@ import { ref } from 'vue'
 import DocumentActions from './DocumentsActions.vue'
 import LogoutButton from './LogoutButton.vue'
 import { useDocumentsStore } from '../../stores/documentsStore'
-import DocumentAddDialog from '../documents/DocumentAddDialog.vue'
+import DocumentAddDialog from '../documents/dialogs/DocumentAddDialog.vue'
 
 const addDocument = ref(null)
 const documentsStore = useDocumentsStore()
