@@ -77,6 +77,7 @@ Celem aplikacji **ProfisysApp** jest stworzenie systemu do zarządzania dokument
 |-------|------|
 | 🔐 **Logowanie** | Uwierzytelnianie użytkowników i przechowywanie tokenu JWT. |
 | 📝 **Lista dokumentów** | Wyświetlanie wszystkich dokumentów w tabeli z wyszukiwaniem i możliwością sortowania. |
+| ⚠️ **ContextMenu (PPM*)** | Context menu dostępne po naciśnięciu prawym przyciskiem myszy na dokument lub item. |
 | 📂 **Import CSV** | Import danych z plików CSV do bazy danych. |
 | ✅ **Dodawanie dokumentów i itemów** | Dodawanie nowych dokumentów i ich itemów. |
 | 🗑 **Usuwanie dokumentów i itemów** | Usuwanie pojedynczych lub wszystkich dokumentów i itemów. |
@@ -86,6 +87,8 @@ Celem aplikacji **ProfisysApp** jest stworzenie systemu do zarządzania dokument
 | 🔄 **Routing** | Strony chronione i przekierowania na login w przypadku braku tokenu. |
 | 📜 **Audit.log** | Śledzi aktywność użytkowników – kto, kiedy i jaką operację wykonał. |
 | ⚠️ **Obsługa błędów** | Wyświetla powiadomienia o błędach operacji i informuje użytkownika o stanie akcji. |
+
+***PPM - Prawy przycisk myszy**
 
 ---
 
